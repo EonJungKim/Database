@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtIDInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edtIDInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="ID 입력"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/btnIDDuplicate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="중복확인"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtPWDInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edtPWDInput1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="PWD 입력"
+            android:inputType="textPassword"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/edtPWDInput2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="PWD 재입력"
+            android:inputType="textPassword"
+            android:singleLine="true" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="이름" />
+
+    <EditText
+        android:id="@+id/edtNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="이름 입력"
+        android:inputType="textPersonName"
+        android:singleLine="true" />
+
+
+    <TextView
+        android:id="@+id/txtSex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="성별"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rdMan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="남자"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"/>
+
+        <RadioButton
+            android:id="@+id/rdWoman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="여자"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/txtBirthDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="생년월일"/>
+
+    <EditText
+        android:id="@+id/edtBirthDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="예) YYYYMMDD"
+        android:inputType="date"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/txtPhonNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="전화번호"/>
+
+    <EditText
+        android:id="@+id/edtPhonNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="하이픈(-) 없이 입력"
+        android:inputType="phone"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/txtHPNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="H.P"/>
+
+    <EditText
+        android:id="@+id/edtHPNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="하이픈(-) 없이 입력"
+        android:inputType="phone"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/txtEMail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E-Mail"/>
+
+    <EditText
+        android:id="@+id/edtEMail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="E-Mail 주소 입력"
+        android:inputType="textEmailAddress"
+        android:singleLine="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnUserSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="회원가입"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+</LinearLayout>
