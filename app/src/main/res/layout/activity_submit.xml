@@ -38,7 +38,7 @@
         android:id="@+id/txtPWDInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"/>
+        android:text="Password" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,7 +82,7 @@
         android:id="@+id/txtSex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="성별"/>
+        android:text="성별" />
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -93,20 +93,20 @@
             android:id="@+id/rdMan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:text="남자"
             android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"/>
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/rdWoman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text="여자"
             android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp"/>
+            android:textStyle="bold" />
 
     </RadioGroup>
 
@@ -114,7 +114,7 @@
         android:id="@+id/txtBirthDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="생년월일"/>
+        android:text="생년월일" />
 
     <EditText
         android:id="@+id/edtBirthDay"
@@ -128,7 +128,7 @@
         android:id="@+id/txtPhonNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="전화번호"/>
+        android:text="전화번호" />
 
     <EditText
         android:id="@+id/edtPhonNumber"
@@ -142,7 +142,7 @@
         android:id="@+id/txtHPNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="H.P"/>
+        android:text="H.P" />
 
     <EditText
         android:id="@+id/edtHPNumber"
@@ -156,7 +156,7 @@
         android:id="@+id/txtEMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="E-Mail"/>
+        android:text="E-Mail" />
 
     <EditText
         android:id="@+id/edtEMail"

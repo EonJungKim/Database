@@ -47,48 +47,47 @@ public class LogInActivity extends AppCompatActivity {
                 ID = edtID.getText().toString().trim();
                 PWD = edtPWD.getText().toString().trim();
 
-                if(ID.equals(""))
-                    showMessage(1);
-                else if(PWD.equals(""))
-                    showMessage(2);
+                if(ID.equals(""))   // ID를 입력하지 않은 경우
+                    showMessage(100);
+                else if(PWD.equals("")) // Password를 입력하지 않은경우
+                    showMessage(101);
 
-                IDSearch(ID, PWD);
+                IDSearch(ID, PWD);  // Server에 ID와 Password를 보내서 가입된 User인지 Check
 
-                if(logInResult == 0) {    // ID를 입력하지 않았거나 ID가 없는경우
-                    showMessage(1);
+                if(logInResult == 100) {    // ID mismatch
+                    showMessage(100);
                     edtID.setText("");
                     edtPWD.setText("");
                 }
 
-                else if(logInResult == 1) {  // PWD를 입력하지 않았거나 PWD가 맞지 않는경우
-                    showMessage(2);
+                else if(logInResult == 101) {  // Password mismatch
+                    showMessage(101);
                     edtID.setText("");
                     edtPWD.setText("");
                 }
 
-                else {
+                else {  // Log in success
                     edtID.setText("");
                     edtPWD.setText("");
 
                     Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
                     Intent myIntent = new Intent(getApplicationContext(), SearchActivity.class);
-                    startActivity(myIntent);
+                    startActivity(myIntent);    // SearchActivity으로 화면 전환
                 }
             }
         });
 
-        Button btnSubmit = (Button) findViewById(R.id.btnSubmit);   // submit으로 이동
+        Button btnSubmit = (Button) findViewById(R.id.btnSubmit);   // SubmitActivity로 전환
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getApplicationContext(), SubmitActivity.class);
-                myIntent.putExtra("ACTIVITY_CODE", 1);
                 startActivity(myIntent);
             }
         });
 
-        Button btnIDPWDSearch = (Button) findViewById(R.id.btnIDPWDSearch); // ID, PWD search로 이동
+        Button btnIDPWDSearch = (Button) findViewById(R.id.btnIDPWDSearch); // IDPWDSearchActivity로 전환
         btnIDPWDSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,34 +99,33 @@ public class LogInActivity extends AppCompatActivity {
 
 
     private void IDSearch(final String ID, final String PWD) {
+        // Server에 ID와 Password를 보내서 가입되어있는 User인지 Check하는 Method
+        final String tag_string_req = "req_login";
 
-        String tag_string_req = "req_login";
+        RequestQueue rq = Volley.newRequestQueue(this); // Create Request Queue
 
-        RequestQueue rq = Volley.newRequestQueue(this);
-
-        String url = "http://localhost:3000/login";
+        String url = "http://localhost:3000/";  // IP Address : localhost, Port Number : 3000
 
         StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
             @Override
-            public void onResponse(String response) {
+            public void onResponse(String response) {   // Server가 Data를 보내면 응답하는 Method
 
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
                     int ERROR_CODE = json_receiver.getInt("ERROR_CODE");
 
-                    if (ERROR_CODE == 0)    // ID mismatch
-                        logInResult = 0;
+                    if (ERROR_CODE == 100)    // ID mismatch
+                        logInResult = 100;
 
-                    else if(ERROR_CODE == 1)    // PWD mismatch
-                        logInResult = 1;
+                    else if(ERROR_CODE == 101)    // PWD mismatch
+                        logInResult = 101;
 
                     else {                  // Log in success
-                        logInResult = 2;
-                        JSONObject userInfo = new JSONObject(response);
+                        logInResult = ERROR_CODE;
 
-                        saveUserInfo(userInfo); // User Database에 User Information을 저장
+                        saveUserInfo(json_receiver); // User Database에 User Information을 저장
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -137,17 +135,18 @@ public class LogInActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         })
 
         {
             @Override
-            protected Map<String, String> getParams() {
+            protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("USER_ID", ID);
                 params.put("USER_PASSWORD", PWD);
+                params.put("REQUEST_CODE", tag_string_req);
 
                 return params;
             }
@@ -155,10 +154,11 @@ public class LogInActivity extends AppCompatActivity {
         };
 
         SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
-        // Request를 Request Queue에 추가
+        // Request를 Request Queue에 Add
     }
 
     private void saveUserInfo(JSONObject userInfo) {
+        // Server로부터 전달받은 User Information을 내부 Database에 저장하는 Method
         try {
             String userName = userInfo.getString("USER_NAME");
             String userID = userInfo.getString("USER_ID");
@@ -184,13 +184,13 @@ public class LogInActivity extends AppCompatActivity {
         }
     }
 
-    private void createDatabase(String name) {
+    private void createDatabase(String name) {  // Log In을 위한 Database를 Create하는 Method
         db = openOrCreateDatabase(name, MODE_WORLD_WRITEABLE, null);
         db.execSQL("create table user ("
                 + "name text, " + " id text, "
                 + "password text, " + "sex text, "
                 + "birthday text, " + "phoneNumber text, "
-                + "cellNumber text, " + "email text");
+                + "cellNumber text, " + "email text" + ");");
     }
 
     private void showMessage(int code) {
@@ -211,10 +211,10 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-        if(code == 1) {
+        if(code == 100) {
             builder.setMessage("잘못된 ID입니다.");
         }
-        else if(code == 2) {
+        else if(code == 101) {
             builder.setMessage("잘못된 비밀번호입니다.");
         }
 
