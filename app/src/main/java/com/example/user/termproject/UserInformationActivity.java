@@ -41,10 +41,6 @@ public class UserInformationActivity extends AppCompatActivity {
 
         User newUser = new User();
 
-        // User Information을 Web Server로 요청하고
-        // 그에 대한 Data를 Parsing 하여 다음 setText Method의 String인자에
-        // 해당 Data를 전달
-
         sex = "man";    // 임시 Statement
 
         edtID.setText("ID");

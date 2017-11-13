@@ -8,6 +8,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by user on 2017-10-03.
@@ -21,6 +35,7 @@ public class IDPWDSearchActivity extends AppCompatActivity {
     EditText edtPWDSearchID, edtPWDSearchName, edtPWDSearchEMail;
 
     String name, ID, eMail;
+    String password;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +53,9 @@ public class IDPWDSearchActivity extends AppCompatActivity {
                 eMail = edtIDSearchEMail.getText().toString().trim();
 
                 IDSearch(name, eMail);
+
+                edtIDSearchName.setText("");
+                edtIDSearchEMail.setText("");
             }
         });
 
@@ -54,6 +72,10 @@ public class IDPWDSearchActivity extends AppCompatActivity {
                 eMail = edtPWDSearchEMail.getText().toString().trim();
 
                 PWDSearch(ID, name, eMail);
+
+                edtPWDSearchID.setText("");
+                edtPWDSearchName.setText("");
+                edtPWDSearchEMail.setText("");
             }
         });
     }
@@ -69,19 +91,16 @@ public class IDPWDSearchActivity extends AppCompatActivity {
             }
         });
 
-        String ID = "ID";
-        String password = "PWD";
-
-        if(code == 1) {
+        if(code == 120) {
             myBuilder.setMessage("회원님의 ID는 \"" + ID + "\" 입니다.");
         }
-        else if(code == 2) {
+        else if(code == 121) {
             myBuilder.setMessage("회원님의 ID가 존재하지 않습니다.");
         }
-        else if(code == 3) {
+        else if(code == 122) {
             myBuilder.setMessage(ID + "님의 비밀번호는 \"" + password + "\" 입니다.");
         }
-        else if(code == 4) {
+        else if(code == 123) {
             myBuilder.setMessage("입력하신 회원정보와 일치하는 ID가 존재하지 않습니다.");
         }
 
@@ -89,36 +108,118 @@ public class IDPWDSearchActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void IDSearch(String name, String eMail){
+    public void IDSearch(final String name, final String eMail){
 
         // 전달받은 name과 eMail을 json Format으로 변형해서 Web Server로 전달하고
         // 이에대한 응답으로 boolean 값을 json Format으로 전달받음
 
-        if(true) {
-            showSearchMessage(1);
-        }
-        else {
-            showSearchMessage(2);
-        }
+        final String tag_string_req = "req_id_search";
 
-        edtIDSearchName.setText("");
-        edtIDSearchEMail.setText("");
+        RequestQueue rq = Volley.newRequestQueue(this);
+
+        String url = "http://localhost:3000/";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject json_receiver = new JSONObject(response);
+
+                    int PWD_SEARCH_CODE = json_receiver.getInt("ERROR_CODE");
+
+                    if (PWD_SEARCH_CODE == 120) {
+                        ID = json_receiver.getString("USER_ID");
+                        showSearchMessage(120);
+                    }
+                    else if(PWD_SEARCH_CODE == 121)
+                        showSearchMessage(121);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("REQUEST_CODE", tag_string_req);
+                params.put("USER_NAME", name);
+                params.put("USER_EMAIL", eMail);
+
+                return params;
+            }
+
+        };
+
+        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        // Request를 Request Queue에 추가
     }
 
-    public void PWDSearch(String ID, String name, String eMail) {
+    public void PWDSearch(final String ID, final String name, final String eMail) {
 
         // 전달받은 ID, name, eMail을 json Format으로 변형해서 Web Server로 전달하고
         // 이에대한 응답으로 boolean 값을 json Format으로 전달받음
 
-        if (true) {
-            showSearchMessage(3);
-        }
-        else {
-            showSearchMessage(4);
-        }
+        final String tag_string_req = "req_pwd_search";
 
-        edtPWDSearchID.setText("");
-        edtPWDSearchName.setText("");
-        edtPWDSearchEMail.setText("");
+        RequestQueue rq = Volley.newRequestQueue(this);
+
+        String url = "http://localhost:3000/";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject json_receiver = new JSONObject(response);
+
+                    int PWD_SEARCH_CODE = json_receiver.getInt("ERROR_CODE");
+
+                    if (PWD_SEARCH_CODE == 122) {
+                        password = json_receiver.getString("USER_PASSWORD");
+                        showSearchMessage(122);
+                    }
+                    else if(PWD_SEARCH_CODE == 123)
+                        showSearchMessage(123);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("REQUEST_CODE", tag_string_req);
+                params.put("USER_ID", ID);
+                params.put("USER_NAME", name);
+                params.put("USER_EMAIL", eMail);
+
+                return params;
+            }
+
+        };
+
+        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        // Request를 Request Queue에 추가
     }
 }

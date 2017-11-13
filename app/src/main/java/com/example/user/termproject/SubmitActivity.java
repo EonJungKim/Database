@@ -201,6 +201,15 @@ public class SubmitActivity extends AppCompatActivity {
                     // User Data를 json Format으로 변형해서 Web Server로 전달
 
                     submit(newUser);
+
+                    edtIDInput.setText("");
+                    edtPWDInput1.setText("");
+                    edtPWDInput2.setText("");
+                    edtName.setText("");
+                    edtBirthDay.setText("");
+                    edtPhoneNumber.setText("");
+                    edtHPNumber.setText("");
+                    edtEMail.setText("");
                 }
             }
         });
@@ -251,14 +260,6 @@ public class SubmitActivity extends AppCompatActivity {
                     int SUBMIT_CHECK_CODE = json_receiver.getInt("ERROR_CODE");
 
                     if (SUBMIT_CHECK_CODE == 112) { // Submit success
-                        edtIDInput.setText("");
-                        edtPWDInput1.setText("");
-                        edtPWDInput2.setText("");
-                        edtName.setText("");
-                        edtBirthDay.setText("");
-                        edtPhoneNumber.setText("");
-                        edtHPNumber.setText("");
-                        edtEMail.setText("");
 
                         showMessage(112);
                     }

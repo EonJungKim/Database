@@ -54,27 +54,8 @@ public class LogInActivity extends AppCompatActivity {
 
                 IDSearch(ID, PWD);  // Server에 ID와 Password를 보내서 가입된 User인지 Check
 
-                if(logInResult == 100) {    // ID mismatch
-                    showMessage(100);
-                    edtID.setText("");
-                    edtPWD.setText("");
-                }
-
-                else if(logInResult == 101) {  // Password mismatch
-                    showMessage(101);
-                    edtID.setText("");
-                    edtPWD.setText("");
-                }
-
-                else {  // Log in success
-                    edtID.setText("");
-                    edtPWD.setText("");
-
-                    Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
-
-                    Intent myIntent = new Intent(getApplicationContext(), SearchActivity.class);
-                    startActivity(myIntent);    // SearchActivity으로 화면 전환
-                }
+                edtID.setText("");
+                edtPWD.setText("");
             }
         });
 
@@ -111,22 +92,27 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {   // Server가 Data를 보내면 응답하는 Method
 
-                try {
-                    JSONObject json_receiver = new JSONObject(response);
+                    try {
+                        JSONObject json_receiver = new JSONObject(response);
 
-                    int ERROR_CODE = json_receiver.getInt("ERROR_CODE");
+                        int ERROR_CODE = json_receiver.getInt("ERROR_CODE");
 
-                    if (ERROR_CODE == 100)    // ID mismatch
-                        logInResult = 100;
+                        if (ERROR_CODE == 100)    // ID mismatch
+                            showMessage(100);
 
-                    else if(ERROR_CODE == 101)    // PWD mismatch
-                        logInResult = 101;
+                        else if(ERROR_CODE == 101)    // PWD mismatch
+                            showMessage(101);
 
-                    else {                  // Log in success
-                        logInResult = ERROR_CODE;
+                        else {                  // Log in success
+                            saveUserInfo(json_receiver); // User Database에 User Information을 저장
 
-                        saveUserInfo(json_receiver); // User Database에 User Information을 저장
-                    }
+                            Toast.makeText(LogInActivity.this, logInResult, Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+
+                            Intent myIntent = new Intent(getApplicationContext(), SearchActivity.class);
+                            startActivity(myIntent);    // SearchActivity으로 화면 전환
+                        }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
