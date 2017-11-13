@@ -58,14 +58,11 @@ public class SubmitActivity extends AppCompatActivity {
 
                     int ID_CHECK_CODE = json_receiver.getInt("ERROR_CODE");
 
-                    if (ID_CHECK_CODE == 110)    // ID mismatch
-                    {
+                    if (ID_CHECK_CODE == 110) {   // ID mismatch
                         IDCheck = false;
                         showMessage(110);
                     }
-
-                    else if(ID_CHECK_CODE == 111)    // PWD mismatch
-                    {
+                    else if(ID_CHECK_CODE == 111) {   // PWD mismatch
                         IDCheck = true;
                         showMessage(111);
                     }
@@ -183,7 +180,6 @@ public class SubmitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 edtIDInput = (EditText) findViewById(R.id.edtIDInput);
                 newUser.ID = edtIDInput.getText().toString().trim();
-                // txtID를 Json 객체에 넣어서 Server로 전송
 
                 if(newUser.ID.equals(""))
                     Toast.makeText(SubmitActivity.this, "ID를 입력하세요.", Toast.LENGTH_SHORT).show();
@@ -219,7 +215,6 @@ public class SubmitActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("안내");
-        builder.setIcon(android.R.drawable.ic_dialog_info);
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
             }
@@ -227,17 +222,22 @@ public class SubmitActivity extends AppCompatActivity {
 
         if(code == 110) {
             builder.setMessage("사용중인 ID입니다.");
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
             IDCheck = false;
         }
         else if(code == 111) {
             builder.setMessage("사용할 수 있는 ID입니다.");
+            builder.setIcon(android.R.drawable.ic_dialog_info);
             IDCheck = true;
         }
-        else if(code == 112)
-            Toast.makeText(SubmitActivity.this, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
-        else if(code == 113)
-            Toast.makeText(SubmitActivity.this, "회원가입에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
-
+        else if(code == 112) {
+            builder.setIcon(android.R.drawable.ic_dialog_info);
+            builder.setMessage("회원가입에 성공하셨습니다.");
+        }
+        else if(code == 113) {
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setMessage("회원가입에 실패하셨습니다.");
+        }
 
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -259,17 +259,10 @@ public class SubmitActivity extends AppCompatActivity {
 
                     int SUBMIT_CHECK_CODE = json_receiver.getInt("ERROR_CODE");
 
-                    if (SUBMIT_CHECK_CODE == 112) { // Submit success
-
-                        showMessage(112);
-                    }
-                    else if(SUBMIT_CHECK_CODE == 113)    // Submit fail
-                        showMessage(113);
-
+                    showMessage(SUBMIT_CHECK_CODE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
 

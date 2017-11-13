@@ -26,9 +26,7 @@ import java.util.Map;
 
 public class LogInActivity extends AppCompatActivity {
 
-    String ID;
-    String PWD;
-    int logInResult;
+    String ID, PWD;
     SQLiteDatabase db;
 
     @Override
@@ -51,8 +49,8 @@ public class LogInActivity extends AppCompatActivity {
                     showMessage(100);
                 else if(PWD.equals("")) // Password를 입력하지 않은경우
                     showMessage(101);
-
-                IDSearch(ID, PWD);  // Server에 ID와 Password를 보내서 가입된 User인지 Check
+                else
+                    IDSearch(ID, PWD);  // Server에 ID와 Password를 보내서 가입된 User인지 Check
 
                 edtID.setText("");
                 edtPWD.setText("");
@@ -97,17 +95,13 @@ public class LogInActivity extends AppCompatActivity {
 
                         int ERROR_CODE = json_receiver.getInt("ERROR_CODE");
 
-                        if (ERROR_CODE == 100)    // ID mismatch
-                            showMessage(100);
-
-                        else if(ERROR_CODE == 101)    // PWD mismatch
-                            showMessage(101);
+                        if (ERROR_CODE == 100 || ERROR_CODE == 101)    // ID or Password mismatch
+                            showMessage(ERROR_CODE);
 
                         else {                  // Log in success
                             saveUserInfo(json_receiver); // User Database에 User Information을 저장
 
-                            Toast.makeText(LogInActivity.this, logInResult, Toast.LENGTH_SHORT).show();
-                            // Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
                             Intent myIntent = new Intent(getApplicationContext(), SearchActivity.class);
                             startActivity(myIntent);    // SearchActivity으로 화면 전환
@@ -116,7 +110,6 @@ public class LogInActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
 
@@ -159,12 +152,12 @@ public class LogInActivity extends AppCompatActivity {
 
             createDatabase(databaseName);
 
-            db.execSQL("insert into user(name, id, password, sex, birthday," +
-                    "phoneNumber, cellNumber, email) values ('" + userName + "', '"
-                     + userID + "', '" + userPWD + "', '" + userSex + "', '"
-                     + userBirthday + "', '" + userPhoneNumber + "', '" + userCellNumber + "', '"
-                     + userEMail + "');");
+            if(db != null) {
+                String sql = "insert into user(name, id, password, sex, birthday, phoneNumber, cellNumber, email) values(?, ?, ?, ?, ?, ?, ?, ?)";
+                Object[] params = {userName, userID, userPWD, userSex, userBirthday, userPhoneNumber, userCellNumber, userEMail};
 
+                db.execSQL(sql, params);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -172,11 +165,11 @@ public class LogInActivity extends AppCompatActivity {
 
     private void createDatabase(String name) {  // Log In을 위한 Database를 Create하는 Method
         db = openOrCreateDatabase(name, MODE_WORLD_WRITEABLE, null);
-        db.execSQL("create table user ("
-                + "name text, " + " id text, "
-                + "password text, " + "sex text, "
-                + "birthday text, " + "phoneNumber text, "
-                + "cellNumber text, " + "email text" + ");");
+
+        if(db != null)
+            db.execSQL("create table user (name text, id text, password text, " +
+                    "sex text, birthday text, phoneNumber text, " +
+                    "cellNumber text, email text);");
     }
 
     private void showMessage(int code) {
@@ -193,6 +186,7 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Intent myIntent = new Intent(getApplicationContext(), IDPWDSearchActivity.class);
                 myIntent.putExtra("REQUEST_CODE", 1);
+
                 startActivity(myIntent);
             }
         });

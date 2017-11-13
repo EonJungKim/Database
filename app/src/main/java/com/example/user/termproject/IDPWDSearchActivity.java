@@ -83,7 +83,6 @@ public class IDPWDSearchActivity extends AppCompatActivity {
     private void showSearchMessage(int code) {
         AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
         myBuilder.setTitle("검색결과");
-        myBuilder.setIcon(android.R.drawable.ic_dialog_info);
 
         myBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -92,15 +91,19 @@ public class IDPWDSearchActivity extends AppCompatActivity {
         });
 
         if(code == 120) {
+            myBuilder.setIcon(android.R.drawable.ic_dialog_info);
             myBuilder.setMessage("회원님의 ID는 \"" + ID + "\" 입니다.");
         }
         else if(code == 121) {
+            myBuilder.setIcon(android.R.drawable.ic_dialog_alert);
             myBuilder.setMessage("회원님의 ID가 존재하지 않습니다.");
         }
         else if(code == 122) {
+            myBuilder.setIcon(android.R.drawable.ic_dialog_info);
             myBuilder.setMessage(ID + "님의 비밀번호는 \"" + password + "\" 입니다.");
         }
         else if(code == 123) {
+            myBuilder.setIcon(android.R.drawable.ic_dialog_alert);
             myBuilder.setMessage("입력하신 회원정보와 일치하는 ID가 존재하지 않습니다.");
         }
 
@@ -126,15 +129,12 @@ public class IDPWDSearchActivity extends AppCompatActivity {
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
-                    int PWD_SEARCH_CODE = json_receiver.getInt("ERROR_CODE");
+                    int ID_SEARCH_CODE = json_receiver.getInt("ERROR_CODE");
 
-                    if (PWD_SEARCH_CODE == 120) {
+                    if (ID_SEARCH_CODE == 120)
                         ID = json_receiver.getString("USER_ID");
-                        showSearchMessage(120);
-                    }
-                    else if(PWD_SEARCH_CODE == 121)
-                        showSearchMessage(121);
 
+                    showSearchMessage(ID_SEARCH_CODE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -185,17 +185,13 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
                     int PWD_SEARCH_CODE = json_receiver.getInt("ERROR_CODE");
 
-                    if (PWD_SEARCH_CODE == 122) {
+                    if (PWD_SEARCH_CODE == 122)
                         password = json_receiver.getString("USER_PASSWORD");
-                        showSearchMessage(122);
-                    }
-                    else if(PWD_SEARCH_CODE == 123)
-                        showSearchMessage(123);
 
+                    showSearchMessage(PWD_SEARCH_CODE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
 
