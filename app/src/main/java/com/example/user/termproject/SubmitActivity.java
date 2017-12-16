@@ -5,51 +5,103 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SubmitActivity extends AppCompatActivity {
 
-    Button btnUserSubmit, btnIDDuplicate;
+    private Button btnUserSubmit, btnIDDuplicate;
 
-    EditText edtIDInput, edtPWDInput1, edtPWDInput2;
-    EditText edtName, edtBirthDay;
-    EditText edtPhoneNumber, edtHPNumber;
-    EditText edtEMail;
+    private EditText edtIDInput, edtPWDInput1, edtPWDInput2;
+    private EditText edtName;
+    private EditText edtEMail;
 
-    RadioButton rdMan, rdWoman;
+    private Spinner spnFavoriteState, spnFavoriteActivity, spnUserState;
 
-    String password1, password2;
+    private ArrayAdapter<?> spnAdapterFavoriteState, spnAdapterFavoriteActivity, spnAdapterUserState;
 
-    Boolean IDCheck = false;    // ID 중복확인 여부
+    private String password1, password2;
 
-    User newUser = new User();
+    private Boolean IDCheck = false;    // ID 중복확인 여부
+
+    private User newUser = new User();
+
+    private void initActivity() {
+        edtIDInput = (EditText) findViewById(R.id.edtIDInput);
+
+        edtPWDInput1 = (EditText) findViewById(R.id.edtPWDInput1);
+        edtPWDInput2 = (EditText) findViewById(R.id.edtPWDInput2);
+
+        edtName = (EditText) findViewById(R.id.edtNameInput);
+
+        edtEMail = (EditText) findViewById(R.id.edtEMail);
+
+        spnFavoriteState = (Spinner) findViewById(R.id.spnFavoriteState);
+        spnFavoriteActivity = (Spinner) findViewById(R.id.spnFavoriteActivity);
+        spnUserState = (Spinner) findViewById(R.id.spnUserState);
+
+        spnAdapterFavoriteState = ArrayAdapter.createFromResource(this, R.array.user_state_spinner, R.layout.spinner_item);
+        spnAdapterFavoriteActivity = ArrayAdapter.createFromResource(this, R.array.user_program_spinner, R.layout.spinner_item);
+        spnAdapterUserState = ArrayAdapter.createFromResource(this, R.array.user_state_spinner, R.layout.spinner_item);
+
+        spnFavoriteState.setAdapter(spnAdapterFavoriteState);
+        spnFavoriteActivity.setAdapter(spnAdapterFavoriteActivity);
+        spnUserState.setAdapter(spnAdapterUserState);
+
+        spnFavoriteState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                newUser.favoriteState = String.valueOf(parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spnFavoriteActivity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                newUser.favoriteActivity = String.valueOf(parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spnUserState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                newUser.state = String.valueOf(parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
     private void IDDuplicate(final String ID) { // ID 중복확인 여부를 판별하는 Method
         // ID를 json Format으로 변형하여 Web Server로 전달
 
+        showMessage(111);
+        IDCheck = true;
+/*
         final String tag_string_req = "req_id_duplicate";
 
         RequestQueue rq = Volley.newRequestQueue(this);
 
-        String url = "http://localhost:3000/";
+        String requestUrl = Splashscreen.url + "idDuplicate";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -93,30 +145,12 @@ public class SubmitActivity extends AppCompatActivity {
         };
 
         SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
-        // Request를 Request Queue에 추가
+        // Request를 Request Queue에 추가*/
     }
 
-    private boolean inputCompletion() {                                  // 입력이 완료 되었는지
-        edtPWDInput1 = (EditText) findViewById(R.id.edtPWDInput1);      // 확인하는 Method
-        edtPWDInput2 = (EditText) findViewById(R.id.edtPWDInput2);
-
-        edtName = (EditText) findViewById(R.id.edtNameInput);
-
-        edtPhoneNumber = (EditText) findViewById(R.id.edtPhonNumber);
-        edtHPNumber = (EditText) findViewById(R.id.edtHPNumber);
-
-        edtBirthDay = (EditText) findViewById(R.id.edtBirthDay);
-
-        edtEMail = (EditText) findViewById(R.id.edtEMail);
-
-        rdMan = (RadioButton) findViewById(R.id.rdMan);
-        rdWoman = (RadioButton) findViewById(R.id.rdWoman);
-
-        newUser.ID = edtName.getText().toString().trim();
-        newUser.phoneNumber = edtPhoneNumber.getText().toString().trim();
-        newUser.cellNumber = edtHPNumber.getText().toString().trim();
-        newUser.birthDay = edtBirthDay.getText().toString().trim();
-        newUser.eMail = edtEMail.getText().toString().trim();
+    private boolean inputCompletion() {                         // 입력이 완료 되었는지
+        newUser.setName(edtName.getText().toString().trim());       // 확인하는 Method
+        newUser.seteMail(edtEMail.getText().toString().trim());
         password1 = edtPWDInput1.getText().toString().trim();
         password2 = edtPWDInput2.getText().toString().trim();
 
@@ -134,39 +168,18 @@ public class SubmitActivity extends AppCompatActivity {
             return false;
         }
         else
-            newUser.password = password1;
-
-        if(rdMan.isChecked())
-            newUser.sex = "male";
-        else if(rdWoman.isChecked())
-            newUser.sex = "female";
-        else {
-            Toast.makeText(this, "성별을 선택하세요.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+            newUser.setPassword(password1);
 
         if(newUser.name.equals("")) {
             Toast.makeText(this, "이름을 입력하세요.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else if(newUser.birthDay.equals("")) {
-            Toast.makeText(this, "생일을 입력하세요.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else if(newUser.phoneNumber.equals("")) {
-            Toast.makeText(this, "전화번호를 입력하세요.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else if(newUser.cellNumber.equals("")) {
-            Toast.makeText(this, "휴대폰 번호를 입력하세요.", Toast.LENGTH_SHORT).show();
             return false;
         }
         else if(newUser.eMail.equals("")) {
             Toast.makeText(this, "e-Mail 주소를 입력하세요.", Toast.LENGTH_SHORT).show();
             return false;
         }
-        else
-            return true;
+
+        return true;
     }
 
     @Override
@@ -174,12 +187,13 @@ public class SubmitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
 
+        initActivity();
+
         btnIDDuplicate = (Button) findViewById(R.id.btnIDDuplicate);    // ID 중복확인
         btnIDDuplicate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edtIDInput = (EditText) findViewById(R.id.edtIDInput);
-                newUser.ID = edtIDInput.getText().toString().trim();
+                newUser.setID(edtIDInput.getText().toString().trim());
 
                 if(newUser.ID.equals(""))
                     Toast.makeText(SubmitActivity.this, "ID를 입력하세요.", Toast.LENGTH_SHORT).show();
@@ -192,19 +206,17 @@ public class SubmitActivity extends AppCompatActivity {
         btnUserSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(inputCompletion())
                 {
+                    showMessage(112);
                     // User Data를 json Format으로 변형해서 Web Server로 전달
-
-                    submit(newUser);
+                    //submit(newUser);
 
                     edtIDInput.setText("");
                     edtPWDInput1.setText("");
                     edtPWDInput2.setText("");
                     edtName.setText("");
-                    edtBirthDay.setText("");
-                    edtPhoneNumber.setText("");
-                    edtHPNumber.setText("");
                     edtEMail.setText("");
                 }
             }
@@ -217,6 +229,7 @@ public class SubmitActivity extends AppCompatActivity {
         builder.setTitle("안내");
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                finish();
             }
         });
 
@@ -244,13 +257,14 @@ public class SubmitActivity extends AppCompatActivity {
     }
 
     private void submit(final User newUser) {
+        /*
         final String tag_string_req = "req_user_submit";
 
         RequestQueue rq = Volley.newRequestQueue(this);
 
-        String url = "http://localhost:3000/";
+        String requestUrl = Splashscreen.url + "submit";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -280,10 +294,9 @@ public class SubmitActivity extends AppCompatActivity {
                 params.put("USER_ID", newUser.ID);
                 params.put("USER_PASSWORD", newUser.password);
                 params.put("USER_NAME", newUser.name);
-                params.put("USER_SEX", newUser.sex);
-                params.put("USER_BIRTHDAY", newUser.birthDay);
-                params.put("USER_PHONE_NUMBER", newUser.phoneNumber);
-                params.put("USER_CELL_NUMBER", newUser.cellNumber);
+                params.put("USER_FAVORITE_STATE", newUser.favoriteState);
+                params.put("USER_FAVORITE_ACTIVITY", newUser.favoriteActivity);
+                params.put("USER_STATE", newUser.state);
                 params.put("USER_EMAIL", newUser.eMail);
 
                 return params;
@@ -292,6 +305,6 @@ public class SubmitActivity extends AppCompatActivity {
         };
 
         SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
-        // Request를 Request Queue에 추가
+        // Request를 Request Queue에 추가*/
     }
 }

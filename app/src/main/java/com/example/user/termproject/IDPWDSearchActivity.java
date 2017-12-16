@@ -37,22 +37,33 @@ public class IDPWDSearchActivity extends AppCompatActivity {
     String name, ID, eMail;
     String password;
 
+    private void initActivity() {   // Initialize Widget
+        // ID Search
+        edtIDSearchName = (EditText) findViewById(R.id.edtIDSearchName);
+        edtIDSearchEMail = (EditText) findViewById(R.id.edtIDSearchEMail);
+
+        // Password Search
+        edtPWDSearchID = (EditText) findViewById(R.id.edtPWDSearchID);
+        edtPWDSearchName = (EditText) findViewById(R.id.edtPWDSearchName);
+        edtPWDSearchEMail = (EditText) findViewById(R.id.edtPWDSearchEMail);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_id_pwd_search);
 
+        initActivity();
+
         btnIDSearch = (Button) findViewById(R.id.btnIDSearch);
         btnIDSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edtIDSearchName = (EditText) findViewById(R.id.edtIDSearchName);
-                edtIDSearchEMail = (EditText) findViewById(R.id.edtIDSearchEMail);
-
                 name = edtIDSearchName.getText().toString().trim();
                 eMail = edtIDSearchEMail.getText().toString().trim();
 
-                IDSearch(name, eMail);
+                showSearchMessage(120);
+                //IDSearch(name, eMail);
 
                 edtIDSearchName.setText("");
                 edtIDSearchEMail.setText("");
@@ -63,15 +74,13 @@ public class IDPWDSearchActivity extends AppCompatActivity {
         btnPWDSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edtPWDSearchID = (EditText) findViewById(R.id.edtPWDSearchID);
-                edtPWDSearchName = (EditText) findViewById(R.id.edtPWDSearchName);
-                edtPWDSearchEMail = (EditText) findViewById(R.id.edtPWDSearchEMail);
 
                 ID = edtPWDSearchID.getText().toString().trim();
                 name = edtPWDSearchName.getText().toString().trim();
                 eMail = edtPWDSearchEMail.getText().toString().trim();
 
-                PWDSearch(ID, name, eMail);
+                showSearchMessage(122);
+                //PWDSearch(ID, name, eMail);
 
                 edtPWDSearchID.setText("");
                 edtPWDSearchName.setText("");
@@ -92,7 +101,8 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
         if(code == 120) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_info);
-            myBuilder.setMessage("회원님의 ID는 \"" + ID + "\" 입니다.");
+            myBuilder.setMessage("회원님의 ID는 \"jek888\" 입니다.");
+            //myBuilder.setMessage("회원님의 ID는 \"" + ID + "\" 입니다.");
         }
         else if(code == 121) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -100,7 +110,8 @@ public class IDPWDSearchActivity extends AppCompatActivity {
         }
         else if(code == 122) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_info);
-            myBuilder.setMessage(ID + "님의 비밀번호는 \"" + password + "\" 입니다.");
+            myBuilder.setMessage(ID + "님의 비밀번호는 \"123\" 입니다.");
+            //myBuilder.setMessage(ID + "님의 비밀번호는 \"" + password + "\" 입니다.");
         }
         else if(code == 123) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -120,9 +131,9 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
         RequestQueue rq = Volley.newRequestQueue(this);
 
-        String url = "http://localhost:3000/";
+        String requestUrl = Splashscreen.url + "idSearch";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -167,16 +178,17 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
     public void PWDSearch(final String ID, final String name, final String eMail) {
 
-        // 전달받은 ID, name, eMail을 json Format으로 변형해서 Web Server로 전달하고
-        // 이에대한 응답으로 boolean 값을 json Format으로 전달받음
+        // ID, name, eMail을 ("key", "value") 형식의 String 값으로 Server에 Request
+        // Server는 이에 대한 응답으로 성공여부를 boolean 값으로, 비밀번호는 ("key", "value")
+        // 형식을 JSONObject Format으로 한 데 묶어 String 으로 Client에 Response
 
         final String tag_string_req = "req_pwd_search";
 
         RequestQueue rq = Volley.newRequestQueue(this);
 
-        String url = "http://localhost:3000/";
+        String requestUrl = Splashscreen.url + "pwdSearch";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -212,7 +224,6 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
                 return params;
             }
-
         };
 
         SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);

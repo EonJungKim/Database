@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+    android:background="@drawable/s_img2"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="3dp">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="마을 이름"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="행정구역"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="도로명 주소"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="프로그램"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="체험내용"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="보유시설"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="대표"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <TextView
+                    android:layout_height="40dp"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="전화번호"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:layout_height="40dp"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="홈페이지"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="16dp"
+                    android:text="관리기관"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/txtTownName"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/txtTownCity"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/txtTownAddress"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/txtTownProgram"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical"/>
+
+                <HorizontalScrollView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/scrollView">
+
+                    <TextView android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:id="@+id/txtTownActivity"
+                        android:textSize="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:gravity="center_vertical"/>
+
+                </HorizontalScrollView>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/txtTownFacility"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/txtTownPresident"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical"/>
+
+                <RelativeLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/txtTownCall"
+                        android:textSize="16dp"
+                        android:gravity="center_vertical"/>
+
+                    <Button
+                        android:layout_height="40dp"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/btnTownCall"
+                        android:layout_alignParentRight="true"
+                        android:textSize="16dp"
+                        android:text="문의하기"
+                        android:gravity="center_vertical|center_horizontal"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/txtTownHomePage"
+                        android:textSize="16dp"
+                        android:gravity="center_vertical"/>
+
+                    <Button
+                        android:layout_height="40dp"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/btnTownHomePage"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="4dp"
+                        android:textSize="16dp"
+                        android:text="이동"
+                        android:gravity="center_vertical|center_horizontal"/>
+
+                </RelativeLayout>
+
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/txtTownManagement"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:layout_height="300dp"
+        android:layout_width="match_parent">
+
+        <fragment
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
+    </FrameLayout>
+
+</LinearLayout>

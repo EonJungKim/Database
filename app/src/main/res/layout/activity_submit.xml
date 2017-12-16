@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/s_img2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/txtIDInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ID" />
@@ -35,7 +35,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txtPWDInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Password" />
@@ -64,7 +63,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="이름" />
@@ -77,83 +75,44 @@
         android:inputType="textPersonName"
         android:singleLine="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="선호지역" />
+
+    <Spinner
+        android:id="@+id/spnFavoriteState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </Spinner>
 
     <TextView
-        android:id="@+id/txtSex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="성별" />
+        android:text="선호활동" />
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rdMan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="남자"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <RadioButton
-            android:id="@+id/rdWoman"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="여자"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/txtBirthDay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="생년월일" />
-
-    <EditText
-        android:id="@+id/edtBirthDay"
+    <Spinner
+        android:id="@+id/spnFavoriteActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="예) YYYYMMDD"
-        android:inputType="date"
-        android:singleLine="true" />
+        android:textColor="@color/colorPrimaryDark">
+
+    </Spinner>
 
     <TextView
-        android:id="@+id/txtPhonNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="전화번호" />
+        android:text="주거지역" />
 
-    <EditText
-        android:id="@+id/edtPhonNumber"
+    <Spinner
+        android:id="@+id/spnUserState"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="하이픈(-) 없이 입력"
-        android:inputType="phone"
-        android:singleLine="true" />
+        android:layout_height="wrap_content">
+
+    </Spinner>
 
     <TextView
-        android:id="@+id/txtHPNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="H.P" />
-
-    <EditText
-        android:id="@+id/edtHPNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="하이픈(-) 없이 입력"
-        android:inputType="phone"
-        android:singleLine="true" />
-
-    <TextView
-        android:id="@+id/txtEMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="E-Mail" />

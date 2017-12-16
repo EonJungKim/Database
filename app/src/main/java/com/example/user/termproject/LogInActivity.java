@@ -83,9 +83,9 @@ public class LogInActivity extends AppCompatActivity {
 
         RequestQueue rq = Volley.newRequestQueue(this); // Create Request Queue
 
-        String url = "http://localhost:3000/";  // IP Address : localhost, Port Number : 3000
+        String requestUrl = Splashscreen.url + "login";  // IP Address : localhost, Port Number : 3000
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {   // Server가 Data를 보내면 응답하는 Method
@@ -103,7 +103,8 @@ public class LogInActivity extends AppCompatActivity {
 
                             Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
-                            Intent myIntent = new Intent(getApplicationContext(), SearchActivity.class);
+                            Intent myIntent = new Intent(getApplicationContext(), MenuActivity.class);
+                            myIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(myIntent);    // SearchActivity으로 화면 전환
                         }
 
@@ -115,7 +116,7 @@ public class LogInActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
             }
         })
 
@@ -129,7 +130,6 @@ public class LogInActivity extends AppCompatActivity {
 
                 return params;
             }
-
         };
 
         SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
@@ -142,34 +142,22 @@ public class LogInActivity extends AppCompatActivity {
             String userName = userInfo.getString("USER_NAME");
             String userID = userInfo.getString("USER_ID");
             String userPWD = userInfo.getString("USER_PASSWORD");
-            String userSex = userInfo.getString("USER_SEX");
-            String userBirthday = userInfo.getString("USER_BIRTHDAY");
-            String userPhoneNumber = userInfo.getString("USER_PHONE_NUMBER");
-            String userCellNumber = userInfo.getString("USER_CELL_NUMBER");
+            String userFavoriteState = userInfo.getString("USER_FAVORITE_SATE");
+            String userFavoriteActivity = userInfo.getString("USER_FAVORITE_ACTIVITY");
+            String userState = userInfo.getString("USER_STATE");
             String userEMail = userInfo.getString("USER_EMAIL");
 
-            String databaseName = "USER_INFORMATION.db";
-
-            createDatabase(databaseName);
+            db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
 
             if(db != null) {
-                String sql = "insert into user(name, id, password, sex, birthday, phoneNumber, cellNumber, email) values(?, ?, ?, ?, ?, ?, ?, ?)";
-                Object[] params = {userName, userID, userPWD, userSex, userBirthday, userPhoneNumber, userCellNumber, userEMail};
+                String sql = "insert into user(name, id PRIMARY KEY, password, favoriteState, favoriteActivity, state, email) values(?, ?, ?, ?, ?, ?, ?);";
+                Object[] params = {userName, userID, userPWD, userFavoriteState, userFavoriteActivity, userState, userEMail};
 
                 db.execSQL(sql, params);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    private void createDatabase(String name) {  // Log In을 위한 Database를 Create하는 Method
-        db = openOrCreateDatabase(name, MODE_WORLD_WRITEABLE, null);
-
-        if(db != null)
-            db.execSQL("create table user (name text, id text, password text, " +
-                    "sex text, birthday text, phoneNumber text, " +
-                    "cellNumber text, email text);");
     }
 
     private void showMessage(int code) {
