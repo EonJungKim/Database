@@ -68,7 +68,7 @@ public class UserInformationActivity extends AppCompatActivity {
             user.setPassword(cursor.getString(2));
             user.setFavoriteState(cursor.getString(3));
             user.setFavoriteActivity(cursor.getString(4));
-            user.seteMail(cursor.getString(5));
+            user.setEMail(cursor.getString(5));
         }
 
         setEditText(user);
@@ -79,6 +79,6 @@ public class UserInformationActivity extends AppCompatActivity {
         txtName.setText(user.getName());
         txtFavoriteState.setText(user.getFavoriteState());
         txtFavoriteActivity.setText(user.getFavoriteActivity());
-        txtEMail.setText(user.geteMail());
+        txtEMail.setText(user.getEMail());
     }
 }

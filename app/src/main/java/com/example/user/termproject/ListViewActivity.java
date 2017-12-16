@@ -64,7 +64,7 @@ public class ListViewActivity extends AppCompatActivity {
             spnAdapter1 = ArrayAdapter.createFromResource(getApplicationContext(), R.array.state_spinner, R.layout.spinner_item);
             setSpinner();
         }
-        else if(REQUEST_CODE.equals("program")) {
+        else if(REQUEST_CODE.equals("activity")) {
             spnSelect1.setVisibility(View.VISIBLE);
             btnSearch.setVisibility(View.VISIBLE);
 
@@ -133,36 +133,12 @@ public class ListViewActivity extends AppCompatActivity {
         return favoriteActivity;
     }
 
-    private void receiveResponse() {
-
-    }
-
     private void activityRequest() {
         final String tag_string_req = "req_activity_search";
 
         String requestUrl = Splashscreen.url + "activitySearch";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {  // Server가 Data를 보내면 응답하는 Method
-
-                try {
-                    JSONArray json_receiver = new JSONArray(response);
-
-                    setListView(json_receiver);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
-                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        })
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, responsePostMessageListener, responsePostMessageErrorListener)
 
         {
             @Override
@@ -178,39 +154,41 @@ public class ListViewActivity extends AppCompatActivity {
         // Request를 Request Queue에 Add
     }
 
+    private Response.Listener<String> responsePostMessageListener = new Response.Listener<String>() {
+
+        @Override
+        public void onResponse(String response) {
+            try {
+                JSONArray json_receiver = new JSONArray(response);
+
+                setListView(json_receiver);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private Response.ErrorListener responsePostMessageErrorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    };
+
     private void cityRequest() {
         final String tag_string_req = "req_city_search";
 
         String requestUrl = Splashscreen.url + "citySearch";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {  // Server가 Data를 보내면 응답하는 Method
-
-                try {
-                    JSONArray json_receiver = new JSONArray(response);
-
-                    setListView(json_receiver);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
-                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        })
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, responsePostMessageListener, responsePostMessageErrorListener)
 
         {
             @Override
             protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("STATE", key1);
-                params.put("STATE", key2);
+                params.put("CITY", key2);
 
                 return params;
             }
@@ -225,34 +203,14 @@ public class ListViewActivity extends AppCompatActivity {
 
         String requestUrl = Splashscreen.url + "favoriteActivity";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {  // Server가 Data를 보내면 응답하는 Method
-
-                try {
-                    JSONArray json_receiver = new JSONArray(response);
-
-                    setListView(json_receiver);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
-                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        })
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, responsePostMessageListener, responsePostMessageErrorListener)
 
         {
             @Override
             protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("USER_ID", ID);
-                params.put("FAVIRITE_STATE", State);
+                params.put("USER_FAVORITE_STATE", State);
 
                 return params;
             }
@@ -267,34 +225,14 @@ public class ListViewActivity extends AppCompatActivity {
 
         String requestUrl = Splashscreen.url + "favoriteState";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {   // Server가 Data를 보내면 응답하는 Method
-
-                try {
-                    JSONArray json_receiver = new JSONArray(response);
-
-                    setListView(json_receiver);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
-                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        })
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, responsePostMessageListener, responsePostMessageErrorListener)
 
         {
             @Override
             protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("USER_ID", ID);
-                params.put("FAVIRITE_STATE", State);
+                params.put("USER_FAVORITE_STATE", State);
 
                 return params;
             }
@@ -314,7 +252,7 @@ public class ListViewActivity extends AppCompatActivity {
 
                 if(REQUEST_CODE.equals("city"))
                     setCitySpinner(key1);
-                else if(REQUEST_CODE.equals("program"))
+                else if(REQUEST_CODE.equals("activity"))
                     txtSelect.setText(key1);
             }
 

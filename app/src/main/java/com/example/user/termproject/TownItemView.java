@@ -34,7 +34,6 @@ public class TownItemView extends LinearLayout {
         txtName = (TextView) findViewById(R.id.txtName);
         txtCity = (TextView) findViewById(R.id.txtCity);
         txtActivity = (TextView) findViewById(R.id.txtActivity);
-
     }
 
     public void setName(String name) {

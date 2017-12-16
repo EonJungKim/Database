@@ -12,7 +12,6 @@ public class User {
     String favoriteState;
     String eMail;
     String favoriteActivity;
-    String state;
 
     public String getName() {
         return name;
@@ -46,11 +45,11 @@ public class User {
         this.favoriteState = favoriteState;
     }
 
-    public String geteMail() {
+    public String getEMail() {
         return eMail;
     }
 
-    public void seteMail(String eMail) {
+    public void setEMail(String eMail) {
         this.eMail = eMail;
     }
 
@@ -62,11 +61,4 @@ public class User {
         this.favoriteActivity = favoriteActivity;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
 }

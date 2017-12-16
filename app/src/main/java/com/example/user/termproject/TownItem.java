@@ -54,6 +54,7 @@ public class TownItem {
     public String toString() {
         return "TownItem{" +
                 "name='" + name + '\'' +
+                ", city='" + city + '\'' +
                 ", activity='" + activity + '\'' +
                 '}';
     }

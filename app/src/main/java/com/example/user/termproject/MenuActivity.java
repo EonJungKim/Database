@@ -37,7 +37,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getApplicationContext(), ListViewActivity.class);
-                myIntent.putExtra("REQUEST_CODE", "program");
+                myIntent.putExtra("REQUEST_CODE", "activity");
                 startActivity(myIntent);
             }
         });

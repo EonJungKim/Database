@@ -1,9 +1,11 @@
 package com.example.user.termproject;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,11 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,7 +135,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
             user.setName(cursor.getString(0));
             user.setID(cursor.getString(1));
-            user.seteMail(cursor.getString(2));
+            user.setEMail(cursor.getString(2));
         }
 
         setEditText(user);
@@ -144,7 +144,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
     private void setEditText(User user) {
         txtID.setText(user.getID());
         edtName.setText(user.getName());
-        edtEMail.setText(user.geteMail());
+        edtEMail.setText(user.getEMail());
     }
 
     private boolean inputComplete() {
@@ -182,7 +182,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
         if(db != null) {
             String sql = "update user set name = \"" + user.getName() + "\", password = \"" + user.getPassword() + "\"" +
                                         ", favoriteState = \"" + user.getFavoriteState() + "\", favoriteActivity = \"" + user.getFavoriteActivity() + "\"" +
-                                        ", eMail = \"" + user.geteMail() + "\" where id = \"" + user.getID() + "\";";
+                                        ", eMail = \"" + user.getEMail() + "\" where id = \"" + user.getID() + "\";";
 
             db.execSQL(sql);
         }
@@ -191,8 +191,6 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
     private void correction(final User newUser) {
 
         final String tag_string_req = "req_user_info_modification";
-
-        RequestQueue rq = Volley.newRequestQueue(this);
 
         String requestUrl = Splashscreen.url + "userInfoModification";
 
@@ -203,8 +201,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
-                    int SUBMIT_CHECK_CODE = json_receiver.getInt("ERROR_CODE");
-
+                    showMessage(json_receiver.getInt("ERROR_CODE"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -235,5 +232,27 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
         SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
         // Request를 Request Queue에 추가
+    }
+
+    private void showMessage(int code) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("안내");
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+
+        if(code == 130) {
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setMessage("회원가입에 실패하였습니다.");
+        }
+        else if(code == 131) {
+            builder.setIcon(android.R.drawable.ic_dialog_info);
+            builder.setMessage("회원가입이 되었습니다.");
+        }
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
