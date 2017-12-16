@@ -139,14 +139,13 @@ public class LogInActivity extends AppCompatActivity {
                 String userPWD = userInfo.getString("USER_PASSWORD");
                 String userFavoriteState = userInfo.getString("USER_FAVORITE_SATE");
                 String userFavoriteActivity = userInfo.getString("USER_FAVORITE_ACTIVITY");
-                String userState = userInfo.getString("USER_STATE");
                 String userEMail = userInfo.getString("USER_EMAIL");
 
             db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
 
             if(db != null) {
-                String sql = "insert into user(name, id PRIMARY KEY, password, favoriteState, favoriteActivity, state, email) values(?, ?, ?, ?, ?, ?, ?);";
-                Object[] params = {userName, userID, userPWD, userFavoriteState, userFavoriteActivity, userState, userEMail};
+                String sql = "insert into user(name, id PRIMARY KEY, password, favoriteState, favoriteActivity, email) values(?, ?, ?, ?, ?, ?);";
+                Object[] params = {userName, userID, userPWD, userFavoriteState, userFavoriteActivity, userEMail};
 
                 db.execSQL(sql, params);
             }

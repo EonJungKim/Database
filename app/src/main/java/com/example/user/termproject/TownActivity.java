@@ -148,9 +148,9 @@ public class TownActivity extends AppCompatActivity {
     }
 
     private void findTown() {
-        final String tag_string_req = "req_town";
+        final String tag_string_req = "req_town_information";
 
-        String requestUrl = Splashscreen.url + "town";
+        String requestUrl = Splashscreen.url + "townInformation";
 
         StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 

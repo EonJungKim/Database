@@ -36,11 +36,11 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
     private TextView txtID;
     private EditText edtPWDCorrect1, edtPWDCorrect2;
     private EditText edtName;
-    private Spinner spnFavoriteState, spnFavoriteActivity, spnUserState;
+    private Spinner spnFavoriteState, spnFavoriteActivity;
     private EditText edtEMail;
     private Button btnCorrectionComplete;
 
-    private ArrayAdapter spnAdapterFavoriteState, spnAdapterFavoriteActivity, spnAdapterUserState;
+    private ArrayAdapter spnAdapterFavoriteState, spnAdapterFavoriteActivity;
 
     private User user;
 
@@ -58,7 +58,6 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
         spnFavoriteState = (Spinner) findViewById(R.id.spnFavoriteState);
         spnFavoriteActivity = (Spinner) findViewById(R.id.spnFavoriteActivity);
-        spnUserState = (Spinner) findViewById(R.id.spnUserState);
 
         edtEMail = (EditText) findViewById(R.id.txtEMailOutput);
 
@@ -66,15 +65,12 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
         spnFavoriteState = (Spinner) findViewById(R.id.spnFavoriteState);
         spnFavoriteActivity = (Spinner) findViewById(R.id.spnFavoriteActivity);
-        spnUserState = (Spinner) findViewById(R.id.spnUserState);
 
         spnAdapterFavoriteState = ArrayAdapter.createFromResource(this, R.array.user_state_spinner, R.layout.spinner_item);
         spnAdapterFavoriteActivity = ArrayAdapter.createFromResource(this, R.array.user_program_spinner, R.layout.spinner_item);
-        spnAdapterUserState = ArrayAdapter.createFromResource(this, R.array.user_state_spinner, R.layout.spinner_item);
 
         spnFavoriteState.setAdapter(spnAdapterFavoriteState);
         spnFavoriteActivity.setAdapter(spnAdapterFavoriteActivity);
-        spnUserState.setAdapter(spnAdapterUserState);
 
         spnFavoriteState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -92,18 +88,6 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 user.favoriteActivity = String.valueOf(parent.getItemAtPosition(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        spnUserState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                user.state = String.valueOf(parent.getItemAtPosition(position));
             }
 
             @Override
@@ -198,7 +182,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
         if(db != null) {
             String sql = "update user set name = \"" + user.getName() + "\", password = \"" + user.getPassword() + "\"" +
                                         ", favoriteState = \"" + user.getFavoriteState() + "\", favoriteActivity = \"" + user.getFavoriteActivity() + "\"" +
-                                        ", state = \"" + user.getState() + "\", eMail = \"" + user.geteMail() + "\" where id = \"" + user.getID() + "\";";
+                                        ", eMail = \"" + user.geteMail() + "\" where id = \"" + user.getID() + "\";";
 
             db.execSQL(sql);
         }
@@ -206,11 +190,11 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
     private void correction(final User newUser) {
 
-        final String tag_string_req = "req_user_correction";
+        final String tag_string_req = "req_user_info_modification";
 
         RequestQueue rq = Volley.newRequestQueue(this);
 
-        String requestUrl = Splashscreen.url + "submit";
+        String requestUrl = Splashscreen.url + "userInfoModification";
 
         StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
@@ -242,7 +226,6 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
                 params.put("USER_NAME", newUser.name);
                 params.put("USER_FAVORITE_STATE", newUser.favoriteState);
                 params.put("USER_FAVORITE_ACTIVITY", newUser.favoriteActivity);
-                params.put("USER_STATE", newUser.state);
                 params.put("USER_EMAIL", newUser.eMail);
 
                 return params;

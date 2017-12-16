@@ -138,9 +138,9 @@ public class ListViewActivity extends AppCompatActivity {
     }
 
     private void activityRequest() {
-        final String tag_string_req = "req_activity";
+        final String tag_string_req = "req_activity_search";
 
-        String requestUrl = Splashscreen.url + "activity";
+        String requestUrl = Splashscreen.url + "activitySearch";
 
         StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
@@ -179,9 +179,9 @@ public class ListViewActivity extends AppCompatActivity {
     }
 
     private void cityRequest() {
-        final String tag_string_req = "req_city";
+        final String tag_string_req = "req_city_search";
 
-        String requestUrl = Splashscreen.url + "city";
+        String requestUrl = Splashscreen.url + "citySearch";
 
         StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 

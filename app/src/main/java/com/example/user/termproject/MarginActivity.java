@@ -184,7 +184,7 @@ public class MarginActivity extends AppCompatActivity {
 
     private void findMargin(final GoogleMap googleMap) {
 
-        final String tag_string_req = "req_user_submit";
+        final String tag_string_req = "req_margin";
 
         String requestUrl = Splashscreen.url + "margin";
 

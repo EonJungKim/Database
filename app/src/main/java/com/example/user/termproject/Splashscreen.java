@@ -83,7 +83,7 @@ public class Splashscreen extends Activity {
         db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
 
         if (db != null) {
-            db.execSQL("create table user (name text, id text, password text, favoriteState text, favoriteActivity text, state text, email text);");
+            db.execSQL("create table user (name text, id text, password text, favoriteState text, favoriteActivity text, email text);");
             isCreated = true;
         }
     }

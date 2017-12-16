@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class UserInformationActivity extends AppCompatActivity {
 
     TextView txtID,txtName;
-    TextView txtFavoriteState, txtFavoriteActivity, txtState;
+    TextView txtFavoriteState, txtFavoriteActivity;
     TextView txtEMail;
     Button btnUserInfoCorrection;
 
@@ -30,7 +30,6 @@ public class UserInformationActivity extends AppCompatActivity {
         txtName = (TextView) findViewById(R.id.txtNameOutput);
         txtFavoriteState = (TextView) findViewById(R.id.txtFavoriteState);
         txtFavoriteActivity = (TextView) findViewById(R.id.txtFavoriteActivity);
-        txtState = (TextView) findViewById(R.id.txtState);
         txtEMail = (TextView) findViewById(R.id.txtEMailOutput);
 
         btnUserInfoCorrection = (Button) findViewById(R.id.btnUserInfoCorrection);
@@ -58,7 +57,7 @@ public class UserInformationActivity extends AppCompatActivity {
         db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
 
         if(db != null) {
-            String sql = "select name, id, password, favoriteState, favoriteActivity, state, email from user";
+            String sql = "select name, id, password, favoriteState, favoriteActivity, email from user";
 
             Cursor cursor = db.rawQuery(sql, null);
 
@@ -69,8 +68,7 @@ public class UserInformationActivity extends AppCompatActivity {
             user.setPassword(cursor.getString(2));
             user.setFavoriteState(cursor.getString(3));
             user.setFavoriteActivity(cursor.getString(4));
-            user.setState(cursor.getString(5));
-            user.seteMail(cursor.getString(6));
+            user.seteMail(cursor.getString(5));
         }
 
         setEditText(user);
@@ -81,7 +79,6 @@ public class UserInformationActivity extends AppCompatActivity {
         txtName.setText(user.getName());
         txtFavoriteState.setText(user.getFavoriteState());
         txtFavoriteActivity.setText(user.getFavoriteActivity());
-        txtState.setText(user.getState());
         txtEMail.setText(user.geteMail());
     }
 }
