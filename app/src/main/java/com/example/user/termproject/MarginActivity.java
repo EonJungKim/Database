@@ -2,7 +2,6 @@ package com.example.user.termproject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,7 +11,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,7 +27,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by user on 2017-11-20.
@@ -57,7 +66,7 @@ public class MarginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        long minTime = 5000;
+        long minTime = 1000;
         float minDistance = 0;
 
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -112,33 +121,29 @@ public class MarginActivity extends AppCompatActivity {
                 minLongitude = Double.parseDouble(form.format(location.getLongitude() - diffLongitude));
                 maxLongitude = Double.parseDouble(form.format(location.getLongitude() + diffLongitude));
 
-                // Server에 minLatitude, maxLatitide, minLongitude, maxLongitude를 보냄
+                findMargin(googleMap);
             }
         });
     }
 
-    public void findDatabase(Location location, GoogleMap googleMap) {
-        db = openOrCreateDatabase("data.db", MODE_PRIVATE, null);
-
-        String sql = "select townName, program, latitude, longitude from town where latitude > " + minLatitude + " AND latitude < " + maxLatitude +
-                " AND longitude > " + minLongitude + " AND longitude < " + maxLongitude + ";";
-
-        Cursor cursor = db.rawQuery(sql, null);
-
-        itemNum = cursor.getCount();
+    public void setMarker(JSONArray jsonArray, GoogleMap googleMap) {
+        itemNum = jsonArray.length();
 
         markers = new MarkerOptions[itemNum];
 
         for (int i = 0; i < itemNum; i++) {
-            cursor.moveToNext();
-
             markers[i] = new MarkerOptions();
 
-            markers[i].position(new LatLng(cursor.getDouble(2), cursor.getDouble(3)));
-            markers[i].title(cursor.getString(0));
-            markers[i].snippet(cursor.getString(1));
-            markers[i].icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_marker));
-            googleMap.addMarker(markers[i]).showInfoWindow();
+            try {
+                markers[i].position(new LatLng(jsonArray.getJSONObject(i).getDouble("LATITUDE"), jsonArray.getJSONObject(i).getDouble("LONGITUDE")));
+                markers[i].title(jsonArray.getJSONObject(i).getString("NAME"));
+                markers[i].snippet(jsonArray.getJSONObject(i).getString("ACTIVITY"));
+                markers[i].icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_marker));
+                googleMap.addMarker(markers[i]).showInfoWindow();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -175,6 +180,51 @@ public class MarginActivity extends AppCompatActivity {
         final int earch = 6371000;  // 지구 반지름, 단위 : m
 
         return (diff * 360.0) / (2 * Math.PI * earch * Math.cos(Math.toRadians(_latitude)));
+    }
+
+    private void findMargin(final GoogleMap googleMap) {
+
+        final String tag_string_req = "req_user_submit";
+
+        String requestUrl = Splashscreen.url + "margin";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
+
+                    setMarker(jsonArray, googleMap);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("MIN_LATITUDE", String.valueOf(minLatitude));
+                params.put("MAX_LATITUDE", String.valueOf(maxLatitude));
+                params.put("MIN_LONGITUDE", String.valueOf(minLongitude));
+                params.put("MAX_LONGITUDE", String.valueOf(maxLongitude));
+
+                return params;
+            }
+
+        };
+
+        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        // Request를 Request Queue에 추가
     }
 
     @Override

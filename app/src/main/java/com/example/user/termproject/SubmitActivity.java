@@ -12,6 +12,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class SubmitActivity extends AppCompatActivity {
 
     private Button btnUserSubmit, btnIDDuplicate;
@@ -94,7 +107,7 @@ public class SubmitActivity extends AppCompatActivity {
 
         showMessage(111);
         IDCheck = true;
-/*
+
         final String tag_string_req = "req_id_duplicate";
 
         RequestQueue rq = Volley.newRequestQueue(this);
@@ -145,7 +158,7 @@ public class SubmitActivity extends AppCompatActivity {
         };
 
         SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
-        // Request를 Request Queue에 추가*/
+        // Request를 Request Queue에 추가
     }
 
     private boolean inputCompletion() {                         // 입력이 완료 되었는지
@@ -209,9 +222,8 @@ public class SubmitActivity extends AppCompatActivity {
 
                 if(inputCompletion())
                 {
-                    showMessage(112);
                     // User Data를 json Format으로 변형해서 Web Server로 전달
-                    //submit(newUser);
+                    submit(newUser);
 
                     edtIDInput.setText("");
                     edtPWDInput1.setText("");
@@ -257,10 +269,8 @@ public class SubmitActivity extends AppCompatActivity {
     }
 
     private void submit(final User newUser) {
-        /*
-        final String tag_string_req = "req_user_submit";
 
-        RequestQueue rq = Volley.newRequestQueue(this);
+        final String tag_string_req = "req_user_submit";
 
         String requestUrl = Splashscreen.url + "submit";
 
@@ -290,7 +300,6 @@ public class SubmitActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("REQUEST_CODE", tag_string_req);
                 params.put("USER_ID", newUser.ID);
                 params.put("USER_PASSWORD", newUser.password);
                 params.put("USER_NAME", newUser.name);
@@ -305,6 +314,6 @@ public class SubmitActivity extends AppCompatActivity {
         };
 
         SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
-        // Request를 Request Queue에 추가*/
+        // Request를 Request Queue에 추가
     }
 }

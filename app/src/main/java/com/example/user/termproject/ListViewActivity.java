@@ -15,8 +15,19 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by user on 2017-11-20.
@@ -68,24 +79,229 @@ public class ListViewActivity extends AppCompatActivity {
             spnSelect2.setVisibility(View.GONE);
             btnSearch.setVisibility(View.GONE);
 
-            favoriteRequest();
+            favoriteStateRequest(findID(), findFavoriteState());
         }
         else if(REQUEST_CODE.equals("favorite_activity")) {
             spnSelect1.setVisibility(View.GONE);
             spnSelect2.setVisibility(View.GONE);
             btnSearch.setVisibility(View.GONE);
 
-            favoriteRequest();
+            favoriteActivityRequest(findID(), findFavoriteActivity());
         }
     }
 
-    private void favoriteRequest() {
-        if(REQUEST_CODE.equals("favorite_state")) {
-            //요청
-        }
-        else if(REQUEST_CODE.equals("favorite_activity")) {
-            //요청
-        }
+    private String findID(){
+
+        db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
+
+        String sql = "select ID from user";
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        cursor.moveToNext();
+
+        String ID = cursor.getString(0);
+
+        return ID;
+    }
+
+    private String findFavoriteState() {
+        db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
+
+        String sql = "select favoriteSate from user";
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        cursor.moveToNext();
+
+        String favoriteState = cursor.getString(0);
+
+        return favoriteState;
+    }
+
+    private String findFavoriteActivity() {
+        db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
+
+        String sql = "select favoriteActivity from user";
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        cursor.moveToNext();
+
+        String favoriteActivity = cursor.getString(0);
+
+        return favoriteActivity;
+    }
+
+    private void receiveResponse() {
+
+    }
+
+    private void activityRequest() {
+        final String tag_string_req = "req_activity";
+
+        String requestUrl = Splashscreen.url + "activity";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {  // Server가 Data를 보내면 응답하는 Method
+
+                try {
+                    JSONArray json_receiver = new JSONArray(response);
+
+                    setListView(json_receiver);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
+                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("ACTIVITY", key1);
+
+                return params;
+            }
+        };
+
+        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        // Request를 Request Queue에 Add
+    }
+
+    private void cityRequest() {
+        final String tag_string_req = "req_city";
+
+        String requestUrl = Splashscreen.url + "city";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {  // Server가 Data를 보내면 응답하는 Method
+
+                try {
+                    JSONArray json_receiver = new JSONArray(response);
+
+                    setListView(json_receiver);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
+                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("STATE", key1);
+                params.put("STATE", key2);
+
+                return params;
+            }
+        };
+
+        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        // Request를 Request Queue에 Add
+    }
+
+    private void favoriteActivityRequest(final String ID, final String State) {
+        final String tag_string_req = "req_favorite_activity";
+
+        String requestUrl = Splashscreen.url + "favoriteActivity";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {  // Server가 Data를 보내면 응답하는 Method
+
+                try {
+                    JSONArray json_receiver = new JSONArray(response);
+
+                    setListView(json_receiver);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
+                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("USER_ID", ID);
+                params.put("FAVIRITE_STATE", State);
+
+                return params;
+            }
+        };
+
+        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        // Request를 Request Queue에 Add
+    }
+
+    private void favoriteStateRequest(final String ID, final String State) {
+        final String tag_string_req = "req_favorite_state";
+
+        String requestUrl = Splashscreen.url + "favoriteState";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {   // Server가 Data를 보내면 응답하는 Method
+
+                try {
+                    JSONArray json_receiver = new JSONArray(response);
+
+                    setListView(json_receiver);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
+                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("USER_ID", ID);
+                params.put("FAVIRITE_STATE", State);
+
+                return params;
+            }
+        };
+
+        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        // Request를 Request Queue에 Add
     }
 
     private void setSpinner() {
@@ -100,12 +316,6 @@ public class ListViewActivity extends AppCompatActivity {
                     setCitySpinner(key1);
                 else if(REQUEST_CODE.equals("program"))
                     txtSelect.setText(key1);
-                else if(REQUEST_CODE.equals("favorite_state")) {
-
-                }
-                else if(REQUEST_CODE.equals("favorite_activity")) {
-
-                }
             }
 
             @Override
@@ -191,21 +401,13 @@ public class ListViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if(REQUEST_CODE.equals("city")) {
+                    cityRequest();
+                }
+                else if(REQUEST_CODE.equals("activity")) {
+                    activityRequest();
+                }
 
-                listView.setAdapter(adapter);
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String townName = TownItems[position].getName();
-
-                        Intent myIntent = new Intent(getApplicationContext(), TownActivity.class);
-
-                        myIntent.putExtra("TOWN_NAME", townName);
-
-                        startActivity(myIntent);
-                    }
-                });
             }
         });
 
@@ -246,19 +448,38 @@ public class ListViewActivity extends AppCompatActivity {
         }
     }
 
-    private void setListView(Cursor cursor) {
-        itemNum = cursor.getCount();
+    private void setListView(JSONArray jsonArray) {
+        itemNum = jsonArray.length();
 
         adapter = new ListViewAdapter();
         TownItems = new TownItem[itemNum];
 
-        for(int i = 0; i < cursor.getCount(); i++) {
-            cursor.moveToNext();
+        for(int i = 0; i < itemNum; i++) {
+            try {
+                TownItems[i] = new TownItem(jsonArray.getJSONObject(i).getString("NAME"),
+                        jsonArray.getJSONObject(i).getString("STATE"), jsonArray.getJSONObject(i).getString("CITY"),
+                        jsonArray.getJSONObject(i).getString("ACTIVITY"));
 
-            TownItems[i] = new TownItem(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
-
-            adapter.addItem(TownItems[i]);
+                adapter.addItem(TownItems[i]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String townName = TownItems[position].getName();
+
+                Intent myIntent = new Intent(getApplicationContext(), TownActivity.class);
+
+                myIntent.putExtra("TOWN_NAME", townName);
+
+                startActivity(myIntent);
+            }
+        });
     }
 
     @Override

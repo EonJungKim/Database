@@ -1,5 +1,6 @@
 package com.example.user.termproject;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -42,12 +43,13 @@ public class UserInformationActivity extends AppCompatActivity {
 
         user = new User();
 
-        //readDatabase();
+        readDatabase();
 
         btnUserInfoCorrection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent myIntent = new Intent(getApplicationContext(), UserInfoCorrectActivity.class);
+                startActivity(myIntent);
             }
         });
     }
@@ -69,10 +71,9 @@ public class UserInformationActivity extends AppCompatActivity {
             user.setFavoriteActivity(cursor.getString(4));
             user.setState(cursor.getString(5));
             user.seteMail(cursor.getString(6));
-
         }
 
-        //setEditText(user);
+        setEditText(user);
     }
 
     private void setEditText(User user) {

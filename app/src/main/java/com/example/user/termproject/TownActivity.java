@@ -10,7 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,6 +24,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by user on 2017-11-27.
@@ -134,6 +145,58 @@ public class TownActivity extends AppCompatActivity {
                 googleMap.addMarker(marker).showInfoWindow();
             }
         });
+    }
+
+    private void findTown() {
+        final String tag_string_req = "req_town";
+
+        String requestUrl = Splashscreen.url + "town";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {  // Server가 Data를 보내면 응답하는 Method
+
+                try {
+                    JSONObject json_receiver = new JSONObject(response);
+
+                    state = json_receiver.getString("STATE");
+                    city = json_receiver.getString("CITY");
+                    program = json_receiver.getString("PROGRAM");
+                    activity = json_receiver.getString("ACTIVITY");
+                    facility = json_receiver.getString("FACILITY");
+                    address = json_receiver.getString("ADDRESS");
+                    president = json_receiver.getString("PRESIDENT");
+                    callNumber = json_receiver.getString("CALL_NUMBER");
+                    homePage = json_receiver.getString("HOMEPAGE");
+                    management = json_receiver.getString("MANAGEMENT");
+                    latitude = json_receiver.getDouble("LATITUDE");
+                    longitude = json_receiver.getDouble("LONGITUDE");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
+                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("NAME", townName);
+
+                return params;
+            }
+        };
+
+        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        // Request를 Request Queue에 Add
     }
 
     @Override

@@ -12,11 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,8 +79,6 @@ public class LogInActivity extends AppCompatActivity {
         // Server에 ID와 Password를 보내서 가입되어있는 User인지 Check하는 Method
         final String tag_string_req = "req_login";
 
-        RequestQueue rq = Volley.newRequestQueue(this); // Create Request Queue
-
         String requestUrl = Splashscreen.url + "login";  // IP Address : localhost, Port Number : 3000
 
         StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
@@ -126,7 +122,6 @@ public class LogInActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("USER_ID", ID);
                 params.put("USER_PASSWORD", PWD);
-                params.put("REQUEST_CODE", tag_string_req);
 
                 return params;
             }
@@ -137,15 +132,15 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private void saveUserInfo(JSONObject userInfo) {
-        // Server로부터 전달받은 User Information을 내부 Database에 저장하는 Method
-        try {
-            String userName = userInfo.getString("USER_NAME");
-            String userID = userInfo.getString("USER_ID");
-            String userPWD = userInfo.getString("USER_PASSWORD");
-            String userFavoriteState = userInfo.getString("USER_FAVORITE_SATE");
-            String userFavoriteActivity = userInfo.getString("USER_FAVORITE_ACTIVITY");
-            String userState = userInfo.getString("USER_STATE");
-            String userEMail = userInfo.getString("USER_EMAIL");
+            // Server로부터 전달받은 User Information을 내부 Database에 저장하는 Method
+            try {
+                String userName = userInfo.getString("USER_NAME");
+                String userID = userInfo.getString("USER_ID");
+                String userPWD = userInfo.getString("USER_PASSWORD");
+                String userFavoriteState = userInfo.getString("USER_FAVORITE_SATE");
+                String userFavoriteActivity = userInfo.getString("USER_FAVORITE_ACTIVITY");
+                String userState = userInfo.getString("USER_STATE");
+                String userEMail = userInfo.getString("USER_EMAIL");
 
             db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
 

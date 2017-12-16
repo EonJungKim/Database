@@ -11,11 +11,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,8 +99,8 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
         if(code == 120) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_info);
-            myBuilder.setMessage("회원님의 ID는 \"jek888\" 입니다.");
-            //myBuilder.setMessage("회원님의 ID는 \"" + ID + "\" 입니다.");
+            //myBuilder.setMessage("회원님의 ID는 \"jek888\" 입니다.");
+            myBuilder.setMessage("회원님의 ID는 \"" + ID + "\" 입니다.");
         }
         else if(code == 121) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -110,8 +108,8 @@ public class IDPWDSearchActivity extends AppCompatActivity {
         }
         else if(code == 122) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_info);
-            myBuilder.setMessage(ID + "님의 비밀번호는 \"123\" 입니다.");
-            //myBuilder.setMessage(ID + "님의 비밀번호는 \"" + password + "\" 입니다.");
+            //myBuilder.setMessage(ID + "님의 비밀번호는 \"123\" 입니다.");
+            myBuilder.setMessage(ID + "님의 비밀번호는 \"" + password + "\" 입니다.");
         }
         else if(code == 123) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -128,8 +126,6 @@ public class IDPWDSearchActivity extends AppCompatActivity {
         // 이에대한 응답으로 boolean 값을 json Format으로 전달받음
 
         final String tag_string_req = "req_id_search";
-
-        RequestQueue rq = Volley.newRequestQueue(this);
 
         String requestUrl = Splashscreen.url + "idSearch";
 
@@ -163,7 +159,6 @@ public class IDPWDSearchActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("REQUEST_CODE", tag_string_req);
                 params.put("USER_NAME", name);
                 params.put("USER_EMAIL", eMail);
 
@@ -183,8 +178,6 @@ public class IDPWDSearchActivity extends AppCompatActivity {
         // 형식을 JSONObject Format으로 한 데 묶어 String 으로 Client에 Response
 
         final String tag_string_req = "req_pwd_search";
-
-        RequestQueue rq = Volley.newRequestQueue(this);
 
         String requestUrl = Splashscreen.url + "passwordSearch";
 
@@ -217,7 +210,6 @@ public class IDPWDSearchActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("REQUEST_CODE", tag_string_req);
                 params.put("USER_ID", ID);
                 params.put("USER_NAME", name);
                 params.put("USER_EMAIL", eMail);

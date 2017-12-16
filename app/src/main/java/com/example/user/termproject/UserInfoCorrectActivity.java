@@ -14,6 +14,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by user on 2017-10-02.
  */
@@ -109,16 +122,16 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
         initActivity();
 
-        //readDatabase();
+        readDatabase();
 
         btnCorrectionComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(inputComplete()) {
-                    //writeDatabase();
+                    writeDatabase();
 
-                    //Server로 데이터 전송
+                    correction(user);
 
                     finish();
                 }
@@ -130,7 +143,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
         db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
 
         if(db != null) {
-            String sql = "select name, id, favoriteState, favoriteActivity, state, email from user";
+            String sql = "select name, id, email from user";
 
             Cursor cursor = db.rawQuery(sql, null);
 
@@ -138,11 +151,9 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
             user.setName(cursor.getString(0));
             user.setID(cursor.getString(1));
-            user.setFavoriteState(cursor.getString(2));
-            user.setFavoriteActivity(cursor.getString(3));
-            user.setState(cursor.getString(4));
-            user.seteMail(cursor.getString(5));
+            user.seteMail(cursor.getString(2));
         }
+
         setEditText(user);
     }
 
@@ -154,6 +165,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
     private boolean inputComplete() {
 
+        user.name = edtName.getText().toString().trim();
         user.eMail = edtEMail.getText().toString().trim();
         password1 = edtPWDCorrect1.getText().toString().trim();
         password2 = edtPWDCorrect2.getText().toString().trim();
@@ -190,5 +202,55 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
             db.execSQL(sql);
         }
+    }
+
+    private void correction(final User newUser) {
+
+        final String tag_string_req = "req_user_correction";
+
+        RequestQueue rq = Volley.newRequestQueue(this);
+
+        String requestUrl = Splashscreen.url + "submit";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject json_receiver = new JSONObject(response);
+
+                    int SUBMIT_CHECK_CODE = json_receiver.getInt("ERROR_CODE");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
+
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("USER_ID", newUser.ID);
+                params.put("USER_PASSWORD", newUser.password);
+                params.put("USER_NAME", newUser.name);
+                params.put("USER_FAVORITE_STATE", newUser.favoriteState);
+                params.put("USER_FAVORITE_ACTIVITY", newUser.favoriteActivity);
+                params.put("USER_STATE", newUser.state);
+                params.put("USER_EMAIL", newUser.eMail);
+
+                return params;
+            }
+
+        };
+
+        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        // Request를 Request Queue에 추가
     }
 }

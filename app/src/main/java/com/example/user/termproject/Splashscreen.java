@@ -8,8 +8,6 @@ import android.widget.ImageView;
 
 import java.util.Random;
 
-
-
 public class Splashscreen extends Activity {
 
     SQLiteDatabase db;
@@ -82,7 +80,7 @@ public class Splashscreen extends Activity {
     }
 
     private void createDatabase() {  // Log In을 위한 Database를 Create하는 Method
-        db = openOrCreateDatabase("USER_INFORMATION.db", MODE_WORLD_WRITEABLE, null);
+        db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
 
         if (db != null) {
             db.execSQL("create table user (name text, id text, password text, favoriteState text, favoriteActivity text, state text, email text);");
