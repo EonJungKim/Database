@@ -186,7 +186,7 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
         RequestQueue rq = Volley.newRequestQueue(this);
 
-        String requestUrl = Splashscreen.url + "pwdSearch";
+        String requestUrl = Splashscreen.url + "passwordSearch";
 
         StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
