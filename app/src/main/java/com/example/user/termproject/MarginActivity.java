@@ -246,7 +246,11 @@ public class MarginActivity extends AppCompatActivity {
                 String sql = "drop table user;";
 
                 if(db != null)
-                    db.execSQL(sql);
+                    try {
+                        db.execSQL(sql);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 myIntent = new Intent(getApplicationContext(), LogInActivity.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
