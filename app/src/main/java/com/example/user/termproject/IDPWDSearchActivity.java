@@ -97,7 +97,6 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
         if(code == 120) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_info);
-            //myBuilder.setMessage("회원님의 ID는 \"jek888\" 입니다.");
             myBuilder.setMessage("회원님의 ID는 \"" + ID + "\" 입니다.");
         }
         else if(code == 121) {
@@ -106,7 +105,6 @@ public class IDPWDSearchActivity extends AppCompatActivity {
         }
         else if(code == 122) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_info);
-            //myBuilder.setMessage(ID + "님의 비밀번호는 \"123\" 입니다.");
             myBuilder.setMessage(ID + "님의 비밀번호는 \"" + password + "\" 입니다.");
         }
         else if(code == 123) {
