@@ -60,8 +60,7 @@ public class IDPWDSearchActivity extends AppCompatActivity {
                 name = edtIDSearchName.getText().toString().trim();
                 eMail = edtIDSearchEMail.getText().toString().trim();
 
-                showSearchMessage(120);
-                //IDSearch(name, eMail);
+                IDSearch(name, eMail);
 
                 edtIDSearchName.setText("");
                 edtIDSearchEMail.setText("");
@@ -77,8 +76,7 @@ public class IDPWDSearchActivity extends AppCompatActivity {
                 name = edtPWDSearchName.getText().toString().trim();
                 eMail = edtPWDSearchEMail.getText().toString().trim();
 
-                showSearchMessage(122);
-                //PWDSearch(ID, name, eMail);
+                PWDSearch(ID, name, eMail);
 
                 edtPWDSearchID.setText("");
                 edtPWDSearchName.setText("");
