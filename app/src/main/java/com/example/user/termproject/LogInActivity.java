@@ -144,6 +144,12 @@ public class LogInActivity extends AppCompatActivity {
             db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
 
             if(db != null) {
+                try {
+                    db.execSQL("create table user (name text, id text, password text, favoriteState text, favoriteActivity text, email text);");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 String sql = "insert into user(name, id PRIMARY KEY, password, favoriteState, favoriteActivity, email) values(?, ?, ?, ?, ?, ?);";
                 Object[] params = {userName, userID, userPWD, userFavoriteState, userFavoriteActivity, userEMail};
 

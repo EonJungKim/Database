@@ -33,9 +33,9 @@ public class SubmitActivity extends AppCompatActivity {
     private EditText edtName;
     private EditText edtEMail;
 
-    private Spinner spnFavoriteState, spnFavoriteActivity, spnUserState;
+    private Spinner spnFavoriteState, spnFavoriteActivity;
 
-    private ArrayAdapter<?> spnAdapterFavoriteState, spnAdapterFavoriteActivity, spnAdapterUserState;
+    private ArrayAdapter<?> spnAdapterFavoriteState, spnAdapterFavoriteActivity;
 
     private String password1, password2;
 
@@ -55,15 +55,12 @@ public class SubmitActivity extends AppCompatActivity {
 
         spnFavoriteState = (Spinner) findViewById(R.id.spnFavoriteState);
         spnFavoriteActivity = (Spinner) findViewById(R.id.spnFavoriteActivity);
-        spnUserState = (Spinner) findViewById(R.id.spnUserState);
 
         spnAdapterFavoriteState = ArrayAdapter.createFromResource(this, R.array.user_state_spinner, R.layout.spinner_item);
         spnAdapterFavoriteActivity = ArrayAdapter.createFromResource(this, R.array.user_program_spinner, R.layout.spinner_item);
-        spnAdapterUserState = ArrayAdapter.createFromResource(this, R.array.user_state_spinner, R.layout.spinner_item);
 
         spnFavoriteState.setAdapter(spnAdapterFavoriteState);
         spnFavoriteActivity.setAdapter(spnAdapterFavoriteActivity);
-        spnUserState.setAdapter(spnAdapterUserState);
 
         spnFavoriteState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -81,18 +78,6 @@ public class SubmitActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 newUser.favoriteActivity = String.valueOf(parent.getItemAtPosition(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        spnUserState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                newUser.state = String.valueOf(parent.getItemAtPosition(position));
             }
 
             @Override
@@ -163,7 +148,7 @@ public class SubmitActivity extends AppCompatActivity {
 
     private boolean inputCompletion() {                         // 입력이 완료 되었는지
         newUser.setName(edtName.getText().toString().trim());       // 확인하는 Method
-        newUser.seteMail(edtEMail.getText().toString().trim());
+        newUser.setEMail(edtEMail.getText().toString().trim());
         password1 = edtPWDInput1.getText().toString().trim();
         password2 = edtPWDInput2.getText().toString().trim();
 
@@ -305,7 +290,6 @@ public class SubmitActivity extends AppCompatActivity {
                 params.put("USER_NAME", newUser.name);
                 params.put("USER_FAVORITE_STATE", newUser.favoriteState);
                 params.put("USER_FAVORITE_ACTIVITY", newUser.favoriteActivity);
-                params.put("USER_STATE", newUser.state);
                 params.put("USER_EMAIL", newUser.eMail);
 
                 return params;
