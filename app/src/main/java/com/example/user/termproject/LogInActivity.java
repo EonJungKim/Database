@@ -44,9 +44,9 @@ public class LogInActivity extends AppCompatActivity {
                 PWD = edtPWD.getText().toString().trim();
 
                 if(ID.equals(""))   // ID를 입력하지 않은 경우
-                    showMessage(100);
+                    showMessage("100");
                 else if(PWD.equals("")) // Password를 입력하지 않은경우
-                    showMessage(101);
+                    showMessage("101");
                 else
                     IDSearch(ID, PWD);  // Server에 ID와 Password를 보내서 가입된 User인지 Check
 
@@ -74,38 +74,67 @@ public class LogInActivity extends AppCompatActivity {
         });
     }
 
-
     private void IDSearch(final String ID, final String PWD) {
         // Server에 ID와 Password를 보내서 가입되어있는 User인지 Check하는 Method
         final String tag_string_req = "req_login";
 
-        String requestUrl = Splashscreen.url + "login";  // IP Address : localhost, Port Number : 3000
+        final String requestUrl = Splashscreen.url + "login";  // IP Address : localhost, Port Number : 3000
 
         StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {   // Server가 Data를 보내면 응답하는 Method
 
-                    try {
-                        JSONObject json_receiver = new JSONObject(response);
+                try {
+                    JSONObject json_receiver = new JSONObject().getJSONObject(response);
 
-                        int ERROR_CODE = json_receiver.getInt("ERROR_CODE");
+                    String ERROR_CODE = json_receiver.getString("ERROR_CODE");
 
-                        if (ERROR_CODE == 100 || ERROR_CODE == 101)    // ID or Password mismatch
-                            showMessage(ERROR_CODE);
+                     if(ERROR_CODE.equals("100")|| ERROR_CODE == "101") {}   // ID or Password mismatch
+                        //showMessage(ERROR_CODE);
 
-                        else {                  // Log in success
-                            saveUserInfo(json_receiver); // User Database에 User Information을 저장
+                    else {
+                        Toast.makeText(LogInActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                         //Log in success
 
-                            Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
-                            Intent myIntent = new Intent(getApplicationContext(), MenuActivity.class);
-                            myIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(myIntent);    // SearchActivity으로 화면 전환
-                        }
+                        //Toast.makeText(LogInActivity.this, "userName = " + userName + "\nuserID = " + userID + "\nuserPWD = " + userPWD + "\nuserFavoriteState = " + userFavoriteState +
+                        //         "\nuserFavoriteActivity = " + userFavoriteProgram + "\nuserEMail = " + userEMail, Toast.LENGTH_SHORT).show();
+
+                        //saveUserInfo(json_receiver.getString("USER_NAME"), json_receiver.getString("USER_ID"), json_receiver.getString("USER_PASSWORD"), json_receiver.getString("USER_FAVORITE_SATE"), json_receiver.getString("USER_FAVORITE_PROGRAM"), json_receiver.getString("USER_EMAIL")); // User Database에 User Information을 저장
+
+                         try {
+                             db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
+
+                             db.execSQL("create table user (name text, id text, password text, favoriteState text, favoriteActivity text, email text);");
+
+                         } catch (Exception e) {
+                             e.printStackTrace();
+                             Toast.makeText(LogInActivity.this, "create쪽에러", Toast.LENGTH_SHORT).show();
+                         }
+
+                         try {
+                                 String sql = "insert into user(name, id PRIMARY KEY, password, favoriteState, favoriteActivity, email) values(?, ?, ?, ?, ?, ?);";
+                                 Object[] params = {json_receiver.getString("USER_NAME"), json_receiver.getString("USER_ID"), json_receiver.getString("USER_PASSWORD"), json_receiver.getString("USER_FAVORITE_SATE"), json_receiver.getString("USER_FAVORITE_PROGRAM"), json_receiver.getString("USER_EMAIL")};
+
+                                 Toast.makeText(LogInActivity.this, "insert", Toast.LENGTH_SHORT).show();
+
+                                 db.execSQL(sql, params);
+                         } catch (Exception e) {
+                             e.printStackTrace();
+                             Toast.makeText(LogInActivity.this, "try catch 에러", Toast.LENGTH_SHORT).show();
+                         }
+
+                        Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+
+                        Intent myIntent = new Intent(getApplicationContext(), MenuActivity.class);
+                        myIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(myIntent);    // SearchActivity으로 화면 전환
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(LogInActivity.this, "에러발생", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -131,36 +160,12 @@ public class LogInActivity extends AppCompatActivity {
         // Request를 Request Queue에 Add
     }
 
-    private void saveUserInfo(JSONObject userInfo) {
+    private void saveUserInfo(String userName,String userID, String userPWD, String userFavoriteState, String userFavoriteProgram, String userEMail) {
             // Server로부터 전달받은 User Information을 내부 Database에 저장하는 Method
-            try {
-                String userName = userInfo.getString("USER_NAME");
-                String userID = userInfo.getString("USER_ID");
-                String userPWD = userInfo.getString("USER_PASSWORD");
-                String userFavoriteState = userInfo.getString("USER_FAVORITE_SATE");
-                String userFavoriteActivity = userInfo.getString("USER_FAVORITE_ACTIVITY");
-                String userEMail = userInfo.getString("USER_EMAIL");
 
-            db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
-
-            if(db != null) {
-                try {
-                    db.execSQL("create table user (name text, id text, password text, favoriteState text, favoriteActivity text, email text);");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                String sql = "insert into user(name, id PRIMARY KEY, password, favoriteState, favoriteActivity, email) values(?, ?, ?, ?, ?, ?);";
-                Object[] params = {userName, userID, userPWD, userFavoriteState, userFavoriteActivity, userEMail};
-
-                db.execSQL(sql, params);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
-    private void showMessage(int code) {
+    private void showMessage(String code) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("안내");
@@ -179,10 +184,10 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-        if(code == 100) {
+        if(code.equals("100")) {
             builder.setMessage("잘못된 ID입니다.");
         }
-        else if(code == 101) {
+        else if(code.equals("101")) {
             builder.setMessage("잘못된 비밀번호입니다.");
         }
 

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.user.termproject">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <permission android:name="com.example.jes20.term_project.permission.MAPS_RECEIVE"
@@ -45,6 +48,7 @@
         <activity android:name=".IDPWDSearchActivity" />
         <activity android:name=".ListViewActivity" />
         <activity android:name=".MarginActivity" />
+        <activity android:name=".Sample" />
     </application>
 
 </manifest>

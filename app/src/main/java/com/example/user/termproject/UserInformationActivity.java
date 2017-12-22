@@ -61,14 +61,16 @@ public class UserInformationActivity extends AppCompatActivity {
 
             Cursor cursor = db.rawQuery(sql, null);
 
-            cursor.moveToNext();
+            for(int i=0; i<cursor.getCount(); i++) {
+                cursor.moveToNext();
 
-            user.setName(cursor.getString(0));
-            user.setID(cursor.getString(1));
-            user.setPassword(cursor.getString(2));
-            user.setFavoriteState(cursor.getString(3));
-            user.setFavoriteActivity(cursor.getString(4));
-            user.setEMail(cursor.getString(5));
+                user.setName(cursor.getString(0));
+                user.setID(cursor.getString(1));
+                user.setPassword(cursor.getString(2));
+                user.setFavoriteState(cursor.getString(3));
+                user.setFavoriteActivity(cursor.getString(4));
+                user.setEMail(cursor.getString(5));
+            }
         }
 
         setEditText(user);
