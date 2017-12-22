@@ -90,7 +90,6 @@ public class SubmitActivity extends AppCompatActivity {
     private void IDDuplicate(final String ID) { // ID 중복확인 여부를 판별하는 Method
         // ID를 json Format으로 변형하여 Web Server로 전달
 
-        showMessage(111);
         IDCheck = true;
 
         final String tag_string_req = "req_id_duplicate";
@@ -106,16 +105,7 @@ public class SubmitActivity extends AppCompatActivity {
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
-                    int ID_CHECK_CODE = json_receiver.getInt("ERROR_CODE");
-
-                    if (ID_CHECK_CODE == 110) {   // ID mismatch
-                        IDCheck = false;
-                        showMessage(110);
-                    }
-                    else if(ID_CHECK_CODE == 111) {   // PWD mismatch
-                        IDCheck = true;
-                        showMessage(111);
-                    }
+                    showMessage(json_receiver.getString("ERROR_CODE"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -134,7 +124,6 @@ public class SubmitActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("REQUEST_CODE", tag_string_req);
                 params.put("USER_ID", ID);
 
                 return params;
@@ -220,33 +209,49 @@ public class SubmitActivity extends AppCompatActivity {
         });
     }
 
-    private void showMessage(int code) {
+    private void showMessage(String code) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("안내");
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                finish();
-            }
-        });
 
-        if(code == 110) {
+        if(code.equals("110")) {
             builder.setMessage("사용중인 ID입니다.");
             builder.setIcon(android.R.drawable.ic_dialog_alert);
             IDCheck = false;
+
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            });
         }
-        else if(code == 111) {
+        else if(code.equals("111")) {
             builder.setMessage("사용할 수 있는 ID입니다.");
             builder.setIcon(android.R.drawable.ic_dialog_info);
             IDCheck = true;
+
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            });
         }
-        else if(code == 112) {
+        else if(code.equals("112")) {
             builder.setIcon(android.R.drawable.ic_dialog_info);
             builder.setMessage("회원가입에 성공하셨습니다.");
+
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    finish();
+                }
+            });
         }
-        else if(code == 113) {
+        else if(code.equals("113")) {
             builder.setIcon(android.R.drawable.ic_dialog_alert);
             builder.setMessage("회원가입에 실패하셨습니다.");
+
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            });
         }
 
         AlertDialog dialog = builder.create();
@@ -266,9 +271,8 @@ public class SubmitActivity extends AppCompatActivity {
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
-                    int SUBMIT_CHECK_CODE = json_receiver.getInt("ERROR_CODE");
+                    showMessage(json_receiver.getString("ERROR_CODE"));
 
-                    showMessage(SUBMIT_CHECK_CODE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -85,7 +85,7 @@ public class IDPWDSearchActivity extends AppCompatActivity {
         });
     }
 
-    private void showSearchMessage(int code) {
+    private void showSearchMessage(String code) {
         AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
         myBuilder.setTitle("검색결과");
 
@@ -95,19 +95,19 @@ public class IDPWDSearchActivity extends AppCompatActivity {
             }
         });
 
-        if(code == 120) {
+        if(code.equals("120")) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_info);
             myBuilder.setMessage("회원님의 ID는 \"" + ID + "\" 입니다.");
         }
-        else if(code == 121) {
+        else if(code.equals("121")) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_alert);
             myBuilder.setMessage("회원님의 ID가 존재하지 않습니다.");
         }
-        else if(code == 122) {
+        else if(code.equals("122")) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_info);
             myBuilder.setMessage(ID + "님의 비밀번호는 \"" + password + "\" 입니다.");
         }
-        else if(code == 123) {
+        else if(code.equals("123")) {
             myBuilder.setIcon(android.R.drawable.ic_dialog_alert);
             myBuilder.setMessage("입력하신 회원정보와 일치하는 ID가 존재하지 않습니다.");
         }
@@ -129,12 +129,14 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
+                Toast.makeText(IDPWDSearchActivity.this, response, Toast.LENGTH_SHORT).show();
+
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
-                    int ID_SEARCH_CODE = json_receiver.getInt("ERROR_CODE");
+                    String ID_SEARCH_CODE = json_receiver.getString("ERROR_CODE");
 
-                    if (ID_SEARCH_CODE == 120)
+                    if (ID_SEARCH_CODE.equals("120"))
                         ID = json_receiver.getString("USER_ID");
 
                     showSearchMessage(ID_SEARCH_CODE);
@@ -184,9 +186,9 @@ public class IDPWDSearchActivity extends AppCompatActivity {
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
-                    int PWD_SEARCH_CODE = json_receiver.getInt("ERROR_CODE");
+                    String PWD_SEARCH_CODE = json_receiver.getString("ERROR_CODE");
 
-                    if (PWD_SEARCH_CODE == 122)
+                    if (PWD_SEARCH_CODE.equals("122"))
                         password = json_receiver.getString("USER_PASSWORD");
 
                     showSearchMessage(PWD_SEARCH_CODE);

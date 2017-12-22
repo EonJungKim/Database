@@ -121,6 +121,9 @@ public class MarginActivity extends AppCompatActivity {
                 minLongitude = Double.parseDouble(form.format(location.getLongitude() - diffLongitude));
                 maxLongitude = Double.parseDouble(form.format(location.getLongitude() + diffLongitude));
 
+                CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
+                googleMap.animateCamera(zoom);
+
                 findMargin(googleMap);
             }
         });
@@ -164,9 +167,6 @@ public class MarginActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
-        googleMap.animateCamera(zoom);
     }
 
     // 반경 m이내의 위도 차(degree)
