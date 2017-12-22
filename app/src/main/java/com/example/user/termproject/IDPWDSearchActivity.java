@@ -129,15 +129,16 @@ public class IDPWDSearchActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                Toast.makeText(IDPWDSearchActivity.this, response, Toast.LENGTH_SHORT).show();
 
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
                     String ID_SEARCH_CODE = json_receiver.getString("ERROR_CODE");
 
+
                     if (ID_SEARCH_CODE.equals("120"))
                         ID = json_receiver.getString("USER_ID");
+
 
                     showSearchMessage(ID_SEARCH_CODE);
                 } catch (JSONException e) {
