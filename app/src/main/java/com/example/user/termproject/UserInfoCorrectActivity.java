@@ -75,7 +75,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
         spnFavoriteState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                user.favoriteState = String.valueOf(parent.getItemAtPosition(position));
+                user.setFavoriteState(String.valueOf(parent.getItemAtPosition(position)));
             }
 
             @Override
@@ -87,7 +87,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
         spnFavoriteActivity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                user.favoriteActivity = String.valueOf(parent.getItemAtPosition(position));
+                user.setFavoriteActivity(String.valueOf(parent.getItemAtPosition(position)));
             }
 
             @Override
@@ -104,6 +104,9 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
 
         user = new User();
 
+        user.setFavoriteActivity("만들기체험");
+        user.setFavoriteState("전라북도");
+
         initActivity();
 
         readDatabase();
@@ -116,8 +119,6 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
                     writeDatabase();
 
                     correction(user);
-
-                    finish();
                 }
             }
         });
@@ -201,7 +202,7 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
-                    showMessage(json_receiver.getInt("ERROR_CODE"));
+                    showMessage(json_receiver.getString("ERROR_CODE"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -234,22 +235,30 @@ public class UserInfoCorrectActivity extends AppCompatActivity {
         // Request를 Request Queue에 추가
     }
 
-    private void showMessage(int code) {
+    private void showMessage(String code) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("안내");
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-            }
-        });
 
-        if(code == 130) {
+
+        if(code.equals("130")) {
             builder.setIcon(android.R.drawable.ic_dialog_alert);
-            builder.setMessage("회원가입에 실패하였습니다.");
+            builder.setMessage("회원정보 수정에 실패하였습니다.");
+
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            });
         }
-        else if(code == 131) {
+        else if(code.equals("131")) {
             builder.setIcon(android.R.drawable.ic_dialog_info);
-            builder.setMessage("회원가입이 되었습니다.");
+            builder.setMessage("회원정보가 수정되었습니다.");
+
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    finish();
+                }
+            });
         }
 
         AlertDialog dialog = builder.create();

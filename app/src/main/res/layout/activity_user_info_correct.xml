@@ -59,6 +59,7 @@
         android:text="선호지역"/>
 
     <Spinner
+        android:id="@+id/spnFavoriteState"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -70,6 +71,7 @@
         android:text="선호활동"/>
 
     <Spinner
+        android:id="@+id/spnFavoriteActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

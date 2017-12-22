@@ -15,7 +15,7 @@ public class Splashscreen extends Activity {
     Thread splashTread;
     ImageView imageView;
 
-    public static String url="http://192.168.0.10:3000/public/";
+    public static String url="http://192.168.0.19:3000/public/";
 
     boolean isCreated = false;
 
@@ -56,7 +56,7 @@ public class Splashscreen extends Activity {
                         intent = new Intent(Splashscreen.this, MenuActivity.class);
                     }
 
-                    //intent =
+                    //intent = new Intent(Splashscreen.this, Sample.class);
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);

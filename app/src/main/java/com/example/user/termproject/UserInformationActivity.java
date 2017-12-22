@@ -42,7 +42,7 @@ public class UserInformationActivity extends AppCompatActivity {
 
         user = new User();
 
-        readDatabase();
+        initActivity();
 
         btnUserInfoCorrection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +51,13 @@ public class UserInformationActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        readDatabase();
     }
 
     private void readDatabase() {

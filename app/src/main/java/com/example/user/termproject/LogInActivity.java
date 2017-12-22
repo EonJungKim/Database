@@ -16,7 +16,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -84,46 +83,25 @@ public class LogInActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {   // Server가 Data를 보내면 응답하는 Method
-
                 try {
-                    JSONObject json_receiver = new JSONObject().getJSONObject(response);
+                    JSONObject receive = new JSONObject(response);
 
-                    String ERROR_CODE = json_receiver.getString("ERROR_CODE");
+                    String ERROR_CODE = receive.getString("ERROR_CODE");
 
-                     if(ERROR_CODE.equals("100")|| ERROR_CODE == "101") {}   // ID or Password mismatch
-                        //showMessage(ERROR_CODE);
-
-                    else {
+                    if (ERROR_CODE.equals("100") || ERROR_CODE.equals("101")) {
+                        showMessage(ERROR_CODE);
+                    }
+                    else if (ERROR_CODE.equals("102")) {
                         Toast.makeText(LogInActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-                         //Log in success
 
+                        String name = receive.getString("USER_NAME");
+                        String ID = receive.getString("USER_ID");
+                        String password = receive.getString("USER_PASSWORD");
+                        String favoriteState = receive.getString("USER_FAVORITE_STATE");
+                        String favoriteProgram = receive.getString("USER_FAVORITE_PROGRAM");
+                        String eMail = receive.getString("USER_EMAIL");
 
-                        //Toast.makeText(LogInActivity.this, "userName = " + userName + "\nuserID = " + userID + "\nuserPWD = " + userPWD + "\nuserFavoriteState = " + userFavoriteState +
-                        //         "\nuserFavoriteActivity = " + userFavoriteProgram + "\nuserEMail = " + userEMail, Toast.LENGTH_SHORT).show();
-
-                        //saveUserInfo(json_receiver.getString("USER_NAME"), json_receiver.getString("USER_ID"), json_receiver.getString("USER_PASSWORD"), json_receiver.getString("USER_FAVORITE_SATE"), json_receiver.getString("USER_FAVORITE_PROGRAM"), json_receiver.getString("USER_EMAIL")); // User Database에 User Information을 저장
-
-                         try {
-                             db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
-
-                             db.execSQL("create table user (name text, id text, password text, favoriteState text, favoriteActivity text, email text);");
-
-                         } catch (Exception e) {
-                             e.printStackTrace();
-                             Toast.makeText(LogInActivity.this, "create쪽에러", Toast.LENGTH_SHORT).show();
-                         }
-
-                         try {
-                                 String sql = "insert into user(name, id PRIMARY KEY, password, favoriteState, favoriteActivity, email) values(?, ?, ?, ?, ?, ?);";
-                                 Object[] params = {json_receiver.getString("USER_NAME"), json_receiver.getString("USER_ID"), json_receiver.getString("USER_PASSWORD"), json_receiver.getString("USER_FAVORITE_SATE"), json_receiver.getString("USER_FAVORITE_PROGRAM"), json_receiver.getString("USER_EMAIL")};
-
-                                 Toast.makeText(LogInActivity.this, "insert", Toast.LENGTH_SHORT).show();
-
-                                 db.execSQL(sql, params);
-                         } catch (Exception e) {
-                             e.printStackTrace();
-                             Toast.makeText(LogInActivity.this, "try catch 에러", Toast.LENGTH_SHORT).show();
-                         }
+                        saveUserInfo(name, ID, password, favoriteState, favoriteProgram, eMail);
 
                         Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
@@ -132,10 +110,10 @@ public class LogInActivity extends AppCompatActivity {
                         startActivity(myIntent);    // SearchActivity으로 화면 전환
                     }
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(LogInActivity.this, "에러발생", Toast.LENGTH_SHORT).show();
                 }
+
             }
         }, new Response.ErrorListener() {
 
@@ -156,13 +134,33 @@ public class LogInActivity extends AppCompatActivity {
             }
         };
 
-        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
+        SingleTon.getInstance(this).addToRequestQueue(strReq, tag_string_req);
         // Request를 Request Queue에 Add
     }
 
     private void saveUserInfo(String userName,String userID, String userPWD, String userFavoriteState, String userFavoriteProgram, String userEMail) {
             // Server로부터 전달받은 User Information을 내부 Database에 저장하는 Method
 
+        try {
+            db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
+
+            db.execSQL("create table user (name text, id text, password text, favoriteState text, favoriteActivity text, email text);");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(LogInActivity.this, "create 쪽 에러", Toast.LENGTH_SHORT).show();
+        }
+
+        try {
+            String sql = "insert into user(name, id , password, favoriteState, favoriteActivity, email) values(?, ?, ?, ?, ?, ?);";
+            Object[] params = {userName, userID, userPWD, userFavoriteState, userFavoriteProgram, userEMail};
+
+            db.execSQL(sql, params);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(LogInActivity.this, "try catch 에러", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showMessage(String code) {

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,7 +38,8 @@ public class ListViewActivity extends AppCompatActivity {
 
     String REQUEST_CODE;
 
-    TextView btnSearch;
+
+    Button btnSearch;
     ListView listView;
     TextView txtSelect;
     Spinner spnSelect1, spnSelect2;
@@ -59,14 +61,14 @@ public class ListViewActivity extends AppCompatActivity {
         if(REQUEST_CODE.equals("city")) {
             spnSelect1.setVisibility(View.VISIBLE);
             spnSelect2.setVisibility(View.VISIBLE);
-            btnSearch.setVisibility(View.VISIBLE);
+            //btnSearch.setVisibility(View.VISIBLE);
 
             spnAdapter1 = ArrayAdapter.createFromResource(getApplicationContext(), R.array.state_spinner, R.layout.spinner_item);
             setSpinner();
         }
         else if(REQUEST_CODE.equals("activity")) {
             spnSelect1.setVisibility(View.VISIBLE);
-            btnSearch.setVisibility(View.VISIBLE);
+            //btnSearch.setVisibility(View.VISIBLE);
 
             spnAdapter1 = ArrayAdapter.createFromResource(getApplicationContext(), R.array.program_spinner, R.layout.spinner_item);
 
@@ -77,14 +79,14 @@ public class ListViewActivity extends AppCompatActivity {
         else if(REQUEST_CODE.equals("favorite_state")) {
             spnSelect1.setVisibility(View.GONE);
             spnSelect2.setVisibility(View.GONE);
-            btnSearch.setVisibility(View.GONE);
+            //btnSearch.setVisibility(View.GONE);
 
             favoriteStateRequest(findID(), findFavoriteState());
         }
         else if(REQUEST_CODE.equals("favorite_activity")) {
             spnSelect1.setVisibility(View.GONE);
             spnSelect2.setVisibility(View.GONE);
-            btnSearch.setVisibility(View.GONE);
+            //btnSearch.setVisibility(View.GONE);
 
             favoriteActivityRequest(findID(), findFavoriteActivity());
         }
@@ -334,7 +336,7 @@ public class ListViewActivity extends AppCompatActivity {
 
         set();
 
-        btnSearch = (TextView) findViewById(R.id.btnSearch);
+        btnSearch = (Button) findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
