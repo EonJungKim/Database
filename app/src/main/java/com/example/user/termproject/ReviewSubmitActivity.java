@@ -123,10 +123,10 @@ public class ReviewSubmitActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("REVIEW_RATING", Float.toString(rating));
-                params.put("REVIEW_TEXT", title);
-                params.put("REVIEW_TEXT", content);
+                params.put("REVIEW_TITLE", title);
+                params.put("REVIEW_CONTENT", content);
                 params.put("REVIEW_DATE", date);
-                params.put("REVIEW_USER_ID", findID());
+                params.put("USER_ID", findID());
 
                 return params;
             }

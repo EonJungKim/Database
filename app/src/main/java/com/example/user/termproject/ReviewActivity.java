@@ -122,8 +122,8 @@ public class ReviewActivity extends AppCompatActivity {
 
             for (int i = 0; i < itemNum; i++) {
 
-                float score = Float.valueOf(jsonArray.getJSONObject(i).getString("REVIEW_SCORE"));
-                String text = jsonArray.getJSONObject(i).getString("REVIEW_TEXT");
+                float score = Float.valueOf(jsonArray.getJSONObject(i).getString("REVIEW_RATING"));
+                String text = jsonArray.getJSONObject(i).getString("REVIEW_CONTENT");
                 String id = jsonArray.getJSONObject(i).getString("USER_ID");
                 String date = jsonArray.getJSONObject(i).getString("REVIEW_DATE"); // 리스트뷰 출력을 위한 요소를 받고나서
                 String num = jsonArray.getJSONObject(i).getString("REVIEW_NUMBER");

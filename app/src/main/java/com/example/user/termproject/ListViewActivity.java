@@ -37,7 +37,6 @@ public class ListViewActivity extends AppCompatActivity {
 
     String REQUEST_CODE;
 
-
     Button btnSearch;
     ListView listView;
     TextView txtSelect;
@@ -115,25 +114,26 @@ public class ListViewActivity extends AppCompatActivity {
     }
 
     private void cityRequest() {
-        final String tag_string_req = "req_city_search";
+            final String tag_string_req = "req_city_search";
 
-        String requestUrl = Splashscreen.url + "citySearch";
+            String requestUrl = Splashscreen.url + "citySearch";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+            StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String response) {
+                @Override
+                public void onResponse(String response) {
 
+                    Toast.makeText(ListViewActivity.this, response, Toast.LENGTH_SHORT).show();
 
-                try {
-                    JSONArray json_receiver = new JSONArray(response);
+                    try {
+                        JSONArray json_receiver = new JSONArray(response);
 
-                    setListView(json_receiver);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        setListView(json_receiver);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
+            }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -309,9 +309,9 @@ public class ListViewActivity extends AppCompatActivity {
 
         for(int i = 0; i < itemNum; i++) {
             try {
-                TownItems[i] = new TownItem(jsonArray.getJSONObject(i).getString("NAME"),
-                        jsonArray.getJSONObject(i).getString("STATE"), jsonArray.getJSONObject(i).getString("CITY"),
-                        jsonArray.getJSONObject(i).getString("ACTIVITY"));
+                TownItems[i] = new TownItem(jsonArray.getJSONObject(i).getString("name"),
+                        jsonArray.getJSONObject(i).getString("state"), jsonArray.getJSONObject(i).getString("city"),
+                        jsonArray.getJSONObject(i).getString("activity"));
 
                 adapter.addItem(TownItems[i]);
             } catch (JSONException e) {
