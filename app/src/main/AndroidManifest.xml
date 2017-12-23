@@ -49,6 +49,10 @@
         <activity android:name=".ListViewActivity" />
         <activity android:name=".MarginActivity" />
         <activity android:name=".Sample" />
+        <activity android:name=".FavoriteListViewActivity" />
+        <activity android:name=".ReviewActivity" />
+        <activity android:name=".ReviewDetail" />
+        <activity android:name=".ReviewSubmitActivity" />
     </application>
 
 </manifest>

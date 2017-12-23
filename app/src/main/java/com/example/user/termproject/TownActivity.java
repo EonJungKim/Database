@@ -45,6 +45,8 @@ public class TownActivity extends AppCompatActivity {
 
     Button btnTownCall, btnTownHomePage;
 
+    Button btnReview;
+
     String townName;
     String state, city, address;
     String program, activity, facility;
@@ -72,6 +74,8 @@ public class TownActivity extends AppCompatActivity {
 
         txtTownHomePage.setVisibility(View.VISIBLE);
 
+        btnReview = (Button) findViewById(R.id.btnReview);
+
         btnTownCall = (Button) findViewById(R.id.btnTownCall);
         btnTownHomePage = (Button) findViewById(R.id.btnTownHomePage);
     }
@@ -90,9 +94,7 @@ public class TownActivity extends AppCompatActivity {
 
         getIntentData();
 
-        // 여기에서 Server로 요청
-
-        setWidget();
+        findTown();
 
         btnTownCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +108,15 @@ public class TownActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(homePage));
+                startActivity(myIntent);
+            }
+        });
+
+        btnReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getApplicationContext(), ReviewActivity.class);
+                myIntent.putExtra("TOWN_NAME", townName);
                 startActivity(myIntent);
             }
         });
@@ -170,8 +181,10 @@ public class TownActivity extends AppCompatActivity {
                     callNumber = json_receiver.getString("CALL_NUMBER");
                     homePage = json_receiver.getString("HOMEPAGE");
                     management = json_receiver.getString("MANAGEMENT");
-                    latitude = json_receiver.getDouble("LATITUDE");
-                    longitude = json_receiver.getDouble("LONGITUDE");
+                    latitude = Double.valueOf(json_receiver.getString("LATITUDE"));
+                    longitude = Double.valueOf(json_receiver.getString("LONGITUDE"));
+
+                    setWidget();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

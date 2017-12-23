@@ -24,60 +24,60 @@
                 android:layout_marginRight="3dp">
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="16dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"
                     android:text="마을 이름"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="16dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"
                     android:text="행정구역"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="16dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"
                     android:text="도로명 주소"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="16dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"
                     android:text="프로그램"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="16dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"
                     android:text="체험내용"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="16dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="center_vertical|center_horizontal"
                     android:text="보유시설"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="16dp"
-                    android:text="대표"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="대표"
+                    android:textSize="16dp" />
 
                 <TextView
                     android:layout_height="40dp"
@@ -96,12 +96,12 @@
                     android:gravity="center_vertical|center_horizontal"/>
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="16dp"
-                    android:text="관리기관"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="관리기관"
+                    android:textSize="16dp" />
 
             </LinearLayout>
 
@@ -111,68 +111,85 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1">
 
-                <TextView
-                    android:layout_height="wrap_content"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:id="@+id/txtTownName"
-                    android:textSize="16dp"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"/>
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/txtTownName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textSize="16dp" />
+
+                    <Button
+                        android:id="@+id/btnReview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="마을 후기"/>
+
+                </LinearLayout>
+
+
 
                 <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
                     android:id="@+id/txtTownCity"
-                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"/>
+                    android:gravity="center_vertical"
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
                     android:id="@+id/txtTownAddress"
-                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"/>
+                    android:gravity="center_vertical"
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
                     android:id="@+id/txtTownProgram"
-                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"/>
+                    android:gravity="center_vertical"
+                    android:textSize="16dp" />
 
                 <HorizontalScrollView
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:id="@+id/scrollView">
+                    android:id="@+id/scrollView"
+                    android:layout_marginBottom="4dp">
 
-                    <TextView android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                    <TextView
                         android:id="@+id/txtTownActivity"
-                        android:textSize="16dp"
-                        android:layout_marginBottom="4dp"
-                        android:gravity="center_vertical"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:textSize="16dp" />
 
                 </HorizontalScrollView>
 
                 <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
                     android:id="@+id/txtTownFacility"
-                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"/>
+                    android:gravity="center_vertical"
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
                     android:id="@+id/txtTownPresident"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
                     android:textSize="16dp"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"/>
+                    android:layout_marginBottom="4dp"/>
 
                 <RelativeLayout
                     android:layout_height="wrap_content"
@@ -180,12 +197,14 @@
                     android:layout_marginBottom="4dp">
 
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_centerVertical="true"
                         android:id="@+id/txtTownCall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
                         android:textSize="16dp"
-                        android:gravity="center_vertical"/>
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"/>
 
                     <Button
                         android:id="@+id/btnTownCall"
@@ -204,35 +223,31 @@
                     android:layout_marginBottom="4dp">
 
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:layout_centerVertical="true"
                         android:id="@+id/txtTownHomePage"
-                        android:textSize="16dp"
-                        android:gravity="center_vertical"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:textSize="16dp" />
 
                     <Button
                         android:id="@+id/btnTownHomePage"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginBottom="4dp"
                         android:background="?android:attr/actionModeWebSearchDrawable"
                         android:gravity="center_vertical|center_horizontal"
                         android:textSize="16dp" />
 
                 </RelativeLayout>
 
-
                 <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
                     android:id="@+id/txtTownManagement"
-                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="4dp"
-                    android:gravity="center_vertical"/>
-
+                    android:gravity="center_vertical"
+                    android:textSize="16dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

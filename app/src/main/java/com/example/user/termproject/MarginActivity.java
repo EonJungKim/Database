@@ -142,11 +142,11 @@ public class MarginActivity extends AppCompatActivity {
                 markers[i].title(jsonArray.getJSONObject(i).getString("NAME"));
                 markers[i].snippet(jsonArray.getJSONObject(i).getString("ACTIVITY"));
                 markers[i].icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_marker));
+
                 googleMap.addMarker(markers[i]).showInfoWindow();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -162,7 +162,6 @@ public class MarginActivity extends AppCompatActivity {
                     }
                 }
                 key = marker.getTitle();
-
 
                 return false;
             }

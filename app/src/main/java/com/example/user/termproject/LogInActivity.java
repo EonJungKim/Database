@@ -106,7 +106,7 @@ public class LogInActivity extends AppCompatActivity {
                         Toast.makeText(LogInActivity.this, ID + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
                         Intent myIntent = new Intent(getApplicationContext(), MenuActivity.class);
-                        myIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(myIntent);    // SearchActivity으로 화면 전환
                     }
 

@@ -1,7 +1,6 @@
 package com.example.user.termproject;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -49,7 +48,7 @@ public class ListViewActivity extends AppCompatActivity {
     TownItem[] TownItems;
     ListViewAdapter adapter;
 
-    String key1, key2;
+    String key1 = "전체보기", key2 = "전체보기";
     int itemNum;
 
     SQLiteDatabase db;
@@ -61,14 +60,12 @@ public class ListViewActivity extends AppCompatActivity {
         if(REQUEST_CODE.equals("city")) {
             spnSelect1.setVisibility(View.VISIBLE);
             spnSelect2.setVisibility(View.VISIBLE);
-            //btnSearch.setVisibility(View.VISIBLE);
 
             spnAdapter1 = ArrayAdapter.createFromResource(getApplicationContext(), R.array.state_spinner, R.layout.spinner_item);
             setSpinner();
         }
         else if(REQUEST_CODE.equals("activity")) {
             spnSelect1.setVisibility(View.VISIBLE);
-            //btnSearch.setVisibility(View.VISIBLE);
 
             spnAdapter1 = ArrayAdapter.createFromResource(getApplicationContext(), R.array.program_spinner, R.layout.spinner_item);
 
@@ -76,63 +73,6 @@ public class ListViewActivity extends AppCompatActivity {
 
             setSpinner();
         }
-        else if(REQUEST_CODE.equals("favorite_state")) {
-            spnSelect1.setVisibility(View.GONE);
-            spnSelect2.setVisibility(View.GONE);
-            //btnSearch.setVisibility(View.GONE);
-
-            favoriteStateRequest(findID(), findFavoriteState());
-        }
-        else if(REQUEST_CODE.equals("favorite_activity")) {
-            spnSelect1.setVisibility(View.GONE);
-            spnSelect2.setVisibility(View.GONE);
-            //btnSearch.setVisibility(View.GONE);
-
-            favoriteActivityRequest(findID(), findFavoriteActivity());
-        }
-    }
-
-    private String findID(){
-
-        db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
-
-        String sql = "select ID from user";
-
-        Cursor cursor = db.rawQuery(sql, null);
-
-        cursor.moveToNext();
-
-        String ID = cursor.getString(0);
-
-        return ID;
-    }
-
-    private String findFavoriteState() {
-        db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
-
-        String sql = "select favoriteSate from user";
-
-        Cursor cursor = db.rawQuery(sql, null);
-
-        cursor.moveToNext();
-
-        String favoriteState = cursor.getString(0);
-
-        return favoriteState;
-    }
-
-    private String findFavoriteActivity() {
-        db = openOrCreateDatabase("USER_INFORMATION.db", MODE_PRIVATE, null);
-
-        String sql = "select favoriteActivity from user";
-
-        Cursor cursor = db.rawQuery(sql, null);
-
-        cursor.moveToNext();
-
-        String favoriteActivity = cursor.getString(0);
-
-        return favoriteActivity;
     }
 
     private void activityRequest() {
@@ -140,7 +80,25 @@ public class ListViewActivity extends AppCompatActivity {
 
         String requestUrl = Splashscreen.url + "activitySearch";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, responsePostMessageListener, responsePostMessageErrorListener)
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray json_receiver = new JSONArray(response);
+
+                    setListView(json_receiver);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
 
         {
             @Override
@@ -156,34 +114,32 @@ public class ListViewActivity extends AppCompatActivity {
         // Request를 Request Queue에 Add
     }
 
-    private Response.Listener<String> responsePostMessageListener = new Response.Listener<String>() {
-
-        @Override
-        public void onResponse(String response) {
-            try {
-                JSONArray json_receiver = new JSONArray(response);
-
-                setListView(json_receiver);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    };
-
-    private Response.ErrorListener responsePostMessageErrorListener = new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    };
-
     private void cityRequest() {
         final String tag_string_req = "req_city_search";
 
         String requestUrl = Splashscreen.url + "citySearch";
 
-        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, responsePostMessageListener, responsePostMessageErrorListener)
+        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+                try {
+                    JSONArray json_receiver = new JSONArray(response);
+
+                    setListView(json_receiver);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        })
 
         {
             @Override
@@ -191,50 +147,6 @@ public class ListViewActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("STATE", key1);
                 params.put("CITY", key2);
-
-                return params;
-            }
-        };
-
-        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
-        // Request를 Request Queue에 Add
-    }
-
-    private void favoriteActivityRequest(final String ID, final String State) {
-        final String tag_string_req = "req_favorite_activity";
-
-        String requestUrl = Splashscreen.url + "favoriteActivity";
-
-        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, responsePostMessageListener, responsePostMessageErrorListener)
-
-        {
-            @Override
-            protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("USER_ID", ID);
-                params.put("USER_FAVORITE_STATE", State);
-
-                return params;
-            }
-        };
-
-        SingleTon.getInstance(this).addToRequestQueue(strReq,tag_string_req);
-        // Request를 Request Queue에 Add
-    }
-
-    private void favoriteStateRequest(final String ID, final String State) {
-        final String tag_string_req = "req_favorite_state";
-
-        String requestUrl = Splashscreen.url + "favoriteState";
-
-        StringRequest strReq = new StringRequest(Request.Method.POST, requestUrl, responsePostMessageListener, responsePostMessageErrorListener)
-
-        {
-            @Override
-            protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("USER_ID", ID);
-                params.put("USER_FAVORITE_STATE", State);
 
                 return params;
             }
@@ -389,6 +301,7 @@ public class ListViewActivity extends AppCompatActivity {
     }
 
     private void setListView(JSONArray jsonArray) {
+
         itemNum = jsonArray.length();
 
         adapter = new ListViewAdapter();

@@ -46,7 +46,7 @@ public class MenuActivity extends AppCompatActivity {
         btnFavoriteState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(getApplicationContext(), ListViewActivity.class);
+                Intent myIntent = new Intent(getApplicationContext(), FavoriteListViewActivity.class);
                 myIntent.putExtra("REQUEST_CODE", "favorite_state");
                 startActivity(myIntent);
             }
@@ -56,7 +56,7 @@ public class MenuActivity extends AppCompatActivity {
         btnFavoriteActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(getApplicationContext(), ListViewActivity.class);
+                Intent myIntent = new Intent(getApplicationContext(), FavoriteListViewActivity.class);
                 myIntent.putExtra("REQUEST_CODE", "favorite_activity");
                 startActivity(myIntent);
             }
