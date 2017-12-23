@@ -77,7 +77,6 @@ public class ReviewDetail extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
 
