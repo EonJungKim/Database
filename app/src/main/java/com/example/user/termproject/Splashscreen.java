@@ -15,7 +15,7 @@ public class Splashscreen extends Activity {
     Thread splashTread;
     ImageView imageView;
 
-    public static String url="http://192.168.123.104:3000/public/";
+    public static String url="http://192.168.0.19:3000/public/";
 
     boolean isCreated = false;
 

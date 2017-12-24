@@ -55,7 +55,7 @@
 
         </LinearLayout>
 
-        <TextView
+        <Button
             android:id="@+id/btnSearch"
             android:layout_width="60dp"
             android:layout_height="match_parent"
