@@ -1,5 +1,4 @@
 package com.example.user.termproject;
-
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -66,11 +65,11 @@ public class ReviewDetail extends AppCompatActivity {
                 try {
                     JSONObject receive = new JSONObject(response);
 
-                    rating = Float.valueOf(receive.getString("RATING"));
-                    ID = receive.getString("USER_ID");
-                    date = receive.getString("REVIEW_DATE");
-                    content = receive.getString("REVIEW_CONTENT");
-                    title = receive.getString("REVIEW_TITLE");
+                    rating = Float.valueOf(receive.getString("point"));
+                    ID = receive.getString("user_ID");
+                    date = receive.getString("date");
+                    content = receive.getString("contents");
+                    title = receive.getString("title");
 
                     setWidget();
 

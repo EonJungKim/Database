@@ -147,6 +147,8 @@ public class FavoriteListViewActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
+
+
                 try {
                     JSONArray json_receiver = new JSONArray(response);
 
@@ -168,7 +170,7 @@ public class FavoriteListViewActivity extends AppCompatActivity {
             protected Map<String, String> getParams() { // Server에 보내는 Data를 지정
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("USER_ID", findID());
-                params.put("USER_FAVORITE_ACTIVITY", findFavoriteActivity());
+                params.put("USER_FAVORITE_PROGRAM", findFavoriteActivity());
 
                 return params;
             }
@@ -187,6 +189,7 @@ public class FavoriteListViewActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
+
                 try {
                     JSONArray json_receiver = new JSONArray(response);
 
@@ -226,9 +229,9 @@ public class FavoriteListViewActivity extends AppCompatActivity {
 
         for(int i = 0; i < itemNum; i++) {
             try {
-                TownItems[i] = new TownItem(jsonArray.getJSONObject(i).getString("NAME"),
-                        jsonArray.getJSONObject(i).getString("STATE"), jsonArray.getJSONObject(i).getString("CITY"),
-                        jsonArray.getJSONObject(i).getString("ACTIVITY"));
+                TownItems[i] = new TownItem(jsonArray.getJSONObject(i).getString("name"),
+                        jsonArray.getJSONObject(i).getString("state"), jsonArray.getJSONObject(i).getString("city"),
+                        jsonArray.getJSONObject(i).getString("activity"));
 
                 adapter2.addItem(TownItems[i]);
             } catch (JSONException e) {

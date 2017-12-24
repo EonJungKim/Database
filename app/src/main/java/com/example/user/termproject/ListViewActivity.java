@@ -123,7 +123,7 @@ public class ListViewActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
 
-                    Toast.makeText(ListViewActivity.this, response, Toast.LENGTH_SHORT).show();
+
 
                     try {
                         JSONArray json_receiver = new JSONArray(response);

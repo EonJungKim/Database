@@ -138,9 +138,9 @@ public class MarginActivity extends AppCompatActivity {
             markers[i] = new MarkerOptions();
 
             try {
-                markers[i].position(new LatLng(Double.valueOf(jsonArray.getJSONObject(i).getString("LATITUDE")), Double.valueOf(jsonArray.getJSONObject(i).getString("LONGITUDE"))));
-                markers[i].title(jsonArray.getJSONObject(i).getString("NAME"));
-                markers[i].snippet(jsonArray.getJSONObject(i).getString("ACTIVITY"));
+                markers[i].position(new LatLng(Double.valueOf(jsonArray.getJSONObject(i).getString("latitude")), Double.valueOf(jsonArray.getJSONObject(i).getString("longitude"))));
+                markers[i].title(jsonArray.getJSONObject(i).getString("name"));
+                markers[i].snippet(jsonArray.getJSONObject(i).getString("activity"));
                 markers[i].icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_marker));
 
                 googleMap.addMarker(markers[i]).showInfoWindow();

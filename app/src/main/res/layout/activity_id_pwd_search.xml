@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0"
         android:orientation="horizontal">
 
     </LinearLayout>
@@ -51,7 +51,8 @@
                     android:gravity="center"
                     android:text="이  름 :"
                     android:textSize="24dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -60,7 +61,8 @@
                     android:text="E-Mail :"
                     android:textSize="24dp"
                     android:textStyle="bold"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:textColor="#000000"/>
 
                 </LinearLayout>
 
@@ -76,7 +78,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:inputType="textPersonName"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="#000000"/>
 
                 <EditText
                     android:id="@+id/edtIDSearchEMail"
@@ -84,7 +87,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:inputType="textWebEmailAddress"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="#000000"/>
 
             </LinearLayout>
 
@@ -96,23 +100,22 @@
             android:orientation="vertical">
 
             <Button
+                android:textColor="#FFFFFF"
+                android:background="@drawable/buttonshape"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
                 android:id="@+id/btnIDSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
                 android:text="검색"
                 android:textSize="24dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                />
 
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
 
     </LinearLayout>
 
@@ -124,7 +127,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="비밀번호 찾기"/>
+            android:text="비밀번호 찾기" />
 
     </LinearLayout>
 
@@ -154,7 +157,8 @@
                     android:gravity="center"
                     android:text="  I   D   :"
                     android:textSize="24dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -163,7 +167,8 @@
                     android:gravity="center"
                     android:text="이  름 :"
                     android:textSize="24dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -172,7 +177,8 @@
                     android:text="E-Mail :"
                     android:textSize="24dp"
                     android:textStyle="bold"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:textColor="#000000"/>
 
             </LinearLayout>
 
@@ -188,7 +194,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:inputType="text"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="#000000"/>
 
                 <EditText
                     android:id="@+id/edtPWDSearchName"
@@ -196,24 +203,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:inputType="textPersonName"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="#000000"/>
 
                 <EditText
                     android:id="@+id/edtPWDSearchEMail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textWebEmailAddress"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="#000000"/>
 
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
 
         </LinearLayout>
 
@@ -223,6 +224,12 @@
             android:orientation="vertical">
 
             <Button
+                android:textColor="#FFFFFF"
+                android:background="@drawable/buttonshape"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
                 android:id="@+id/btnPWDSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -238,7 +245,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:orientation="horizontal">
 
     </LinearLayout>

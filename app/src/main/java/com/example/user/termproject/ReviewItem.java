@@ -20,11 +20,11 @@ public class ReviewItem {
         this.num = num;
     }
 
-    public Float getRating() {
+    public Float getrating() {
         return rating;
     }
 
-    public void setRating(Float rating) {
+    public void setrating(Float rating) {
         this.rating = rating;
     }
 

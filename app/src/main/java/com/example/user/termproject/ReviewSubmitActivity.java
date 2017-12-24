@@ -47,7 +47,7 @@ public class ReviewSubmitActivity extends AppCompatActivity {
 
     float rating;
     String date;
-
+    String townName;
     SQLiteDatabase db;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,8 @@ public class ReviewSubmitActivity extends AppCompatActivity {
         btnSubmit_Review.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = getIntent();
+                townName = intent.getStringExtra("TOWN_NAME");
                 title = edtReviewTitle.getText().toString().trim();
                 content = edtReviewContent.getText().toString().trim();
                 rating = ratingbar.getRating();
@@ -127,11 +129,11 @@ public class ReviewSubmitActivity extends AppCompatActivity {
                 params.put("REVIEW_CONTENT", content);
                 params.put("REVIEW_DATE", date);
                 params.put("USER_ID", findID());
+                params.put("TOWN_NAME", townName);
 
                 return params;
             }
         };
-
         SingleTon.getInstance(this).addToRequestQueue(strReq, tag_string_req);
     }
 

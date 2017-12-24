@@ -70,6 +70,7 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getApplicationContext(), ReviewSubmitActivity.class);
+                myIntent.putExtra("TOWN_NAME", townName);
                 startActivity(myIntent);
             }
         });
@@ -103,7 +104,7 @@ public class ReviewActivity extends AppCompatActivity {
             ReviewItemView view = new ReviewItemView(getApplicationContext());
 
             ReviewItem item = items.get(position);
-            view.setRating(item.getRating());
+            view.setrating(item.getrating());
             view.setId(item.getID());
             view.setText(item.getTitle());
             view.setDate(item.getDate());
@@ -122,12 +123,11 @@ public class ReviewActivity extends AppCompatActivity {
 
             for (int i = 0; i < itemNum; i++) {
 
-                float score = Float.valueOf(jsonArray.getJSONObject(i).getString("REVIEW_RATING"));
-                String text = jsonArray.getJSONObject(i).getString("REVIEW_CONTENT");
-                String id = jsonArray.getJSONObject(i).getString("USER_ID");
-                String date = jsonArray.getJSONObject(i).getString("REVIEW_DATE"); // 리스트뷰 출력을 위한 요소를 받고나서
-                String num = jsonArray.getJSONObject(i).getString("REVIEW_NUMBER");
-
+                float score = Float.valueOf(jsonArray.getJSONObject(i).getString("point"));
+                String text = jsonArray.getJSONObject(i).getString("contents");
+                String id = jsonArray.getJSONObject(i).getString("user_ID");
+                String date = jsonArray.getJSONObject(i).getString("date"); // 리스트뷰 출력을 위한 요소를 받고나서
+                String num = jsonArray.getJSONObject(i).getString("review_ID");
                 reviewItems[i] = new ReviewItem(score, text, id, date, num);
 
                 adapter.addItem(reviewItems[i]); // town item에 추가해준다
@@ -160,7 +160,6 @@ public class ReviewActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {   // Server가 Data를 보내면 응답하는 Method
-
                 try {
                     JSONArray json_receiver = new JSONArray(response);
 

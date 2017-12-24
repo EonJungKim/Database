@@ -1,6 +1,7 @@
 package com.example.user.termproject;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -19,9 +20,10 @@ public class ReviewItemView extends LinearLayout {
 
     public ReviewItemView(Context context) {
         super(context);
+        init(context);
     }
 
-    public ReviewItemView(Context context, AttributeSet attrs) {
+    public ReviewItemView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
@@ -36,7 +38,7 @@ public class ReviewItemView extends LinearLayout {
         textView_date = (TextView) findViewById(R.id.Review_Date);
     }
 
-    public void setRating(Float rating) {
+    public void setrating(Float rating) {
         textView_rating.setRating (rating);
     }
 

@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/menu_user_info"
-        android:icon="@android:drawable/ic_menu_info_details"
+        android:icon="@drawable/btnuser"
         android:title="회원정보"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_logout"
-        android:icon="@android:drawable/presence_offline"
+        android:icon="@drawable/btnlogout"
         android:title="로그아웃"
         app:showAsAction="always"/>
 </menu>

@@ -167,7 +167,7 @@ public class TownActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {  // Server가 Data를 보내면 응답하는 Method
-
+                
                 try {
                     JSONObject json_receiver = new JSONObject(response);
 
