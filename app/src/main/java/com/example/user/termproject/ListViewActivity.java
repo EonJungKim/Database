@@ -122,9 +122,6 @@ public class ListViewActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(String response) {
-
-
-
                     try {
                         JSONArray json_receiver = new JSONArray(response);
 
@@ -137,7 +134,7 @@ public class ListViewActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         })
 

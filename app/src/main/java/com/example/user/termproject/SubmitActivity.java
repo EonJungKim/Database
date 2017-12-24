@@ -106,7 +106,6 @@ public class SubmitActivity extends AppCompatActivity {
                     JSONObject json_receiver = new JSONObject(response);
 
                     showMessage(json_receiver.getString("ERROR_CODE"));
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

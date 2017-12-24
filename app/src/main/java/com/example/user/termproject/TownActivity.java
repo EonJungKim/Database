@@ -194,7 +194,7 @@ public class TownActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
-                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         })
 

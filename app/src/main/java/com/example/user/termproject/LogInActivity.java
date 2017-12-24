@@ -119,7 +119,7 @@ public class LogInActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {    // Error가 발생하는 경우
-                Toast.makeText(getApplicationContext(), 123 + error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }
         })
 
@@ -148,7 +148,6 @@ public class LogInActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(LogInActivity.this, "create 쪽 에러", Toast.LENGTH_SHORT).show();
         }
 
         try {
@@ -159,7 +158,6 @@ public class LogInActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(LogInActivity.this, "try catch 에러", Toast.LENGTH_SHORT).show();
         }
     }
 
